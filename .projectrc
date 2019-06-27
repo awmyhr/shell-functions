@@ -1,0 +1,14 @@
+{
+  projectrc_version: '1.0.0',
+  contact_email: 'awmyhr@gmail.com',
+  contact_name: 'awmyhr',
+  email: 'andy.myhr@metlife.com',
+  full_name: 'MyHR, Andy',
+  project_home: 'https://github.com/awmyhr/shell-functions',
+  project_name: 'Shell Functions',
+  project_slug: 'shell-functions',
+  project_abbr: 'shfunc',
+  project_version: '2019.06.27',
+  software_copyright: '2019 awmyhr',
+  software_license: 'Apache-2.0'
+}

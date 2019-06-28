@@ -26,8 +26,8 @@ timestamp() {
     #-- Expected globals ------------------------------------------------------
     DEFAULT_TIMESTAMP="${DEFAULT_TIMESTAMP:="+%Y%m%d"}"
     __default_dsf__="${__default_dsf__:=${DEFAULT_TIMESTAMP}}"
-    #--------------------------------------------------------------------------
-    if [ "${#}" -eq 0 ]; then
+    #--------------------------------------------------------------------------# {% raw %}
+    if [ "${#}" -eq 0 ]; then # {% endraw %}
         date "${__default_dsf__}" || return "${?}"
     else
         date "${@}" || return "${?}"

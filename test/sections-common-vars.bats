@@ -12,10 +12,11 @@ load 'libs/bats-support/load'
 load 'libs/bats-assert/load'
 load 'libs/bats-file/load'
 
-@test "common_vars() for successfull settings" {
+@test "Section: common_vars (standard settings)" {
     RUN_UNIT_TEST='true' run src/sections/common_vars
     assert_success
-    assert_line '+%Y%m%d-%H%M%S'
+    assert_line '__backup_dsf__="+%Y%m%d-%H%M%S"'
     assert_line --partial 'common_vars'
-    assert_line '20'
+    assert_line '__logger_lvl__="20"'
+    assert_line 'PATH=/sbin:/usr/sbin:/bin:/usr/bin'
 }

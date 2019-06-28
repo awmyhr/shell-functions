@@ -19,7 +19,7 @@ _usage_ec() {
     #:
     #: Print reStructuredText-compatible table of exit conditions
     #:"""
-    # TODO: This is not yet POSIX-safe
+    # NOTE: This is not yet POSIX-safe
     #-- Expected globals ------------------------------------------------------
     __basename__="${__basename__:=${0}}"
     #--------------------------------------------------------------------------

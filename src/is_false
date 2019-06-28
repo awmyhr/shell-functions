@@ -21,8 +21,8 @@ is_false() {
     #: Ref: https://github.com/fedora-sysv/initscripts)
     #:
     #: :param str boolean:   String to check
-    #:"""
-    if [ "${#}" -ne 1 ] ; then
+    #:"""# {% raw %}
+    if [ "${#}" -ne 1 ] ; then # {% endraw %}
         return 64
     fi
     case "${1}" in

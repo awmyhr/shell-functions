@@ -63,8 +63,8 @@ exit_error() {
     __logger_dsf__="${__logger_dsf__:="+%Y%m%d"}"
     __logger_file__="${__logger_file__:=unknown}"
     __logger_file_set__=${__logger_file_set__:='false'}
-    #--------------------------------------------------------------------------
-    if [ "${#}" -eq 2 ] ; then
+    #--------------------------------------------------------------------------# {% raw %}
+    if [ "${#}" -eq 2 ] ; then # {% endraw %}
         __exit_error_code="${1}"
         __exit_error_mess="${2}"
     else

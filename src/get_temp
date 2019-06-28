@@ -27,8 +27,8 @@ get_temp() {
     #-- Expected globals ------------------------------------------------------
     __cononical_name__="${__cononical_name__:=unknown}"
     #--------------------------------------------------------------------------
-    __get_temp_dir=''
-    if [ "${#}" -eq 1 ] ; then  #
+    __get_temp_dir='' # {% raw %}
+    if [ "${#}" -eq 1 ] ; then # {% endraw %}
         case 'directory' in
             *${1}*) __get_temp_dir='-d' ;;
             *)      ;;

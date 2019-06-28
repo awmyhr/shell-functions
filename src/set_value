@@ -23,8 +23,8 @@ set_value() {
     #: :param str key:    KEY to create/modify
     #: :param str value:  VALUE to set key to
     #: :param str quote:  set to 'noquote' if VALUE should not be quoted
-    #:"""
-    if [ "${#}" -ne 3 ] && [ "${#}" -ne 4 ] ; then
+    #:"""# {% raw %}
+    if [ "${#}" -ne 3 ] && [ "${#}" -ne 4 ] ; then # {% endraw %}
         return 64
     fi
     __set_value_file="${1}"

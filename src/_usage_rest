@@ -28,7 +28,8 @@ _usage_rest() {
     __license__="${__license__:=unknown}"
     __synopsis__="${__synopsis__:=synopsis}"
     #--------------------------------------------------------------------------
-    __usage_rest_char="%${#__cononical_name__}s"
+    # {% raw %}
+    __usage_rest_char="%${#__cononical_name__}s" # {% endraw %}
     #-- We are using a variable to format data in printf
     # shellcheck disable=2059
     printf "${__usage_rest_char}\\n" | tr " " "="

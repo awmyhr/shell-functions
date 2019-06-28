@@ -28,6 +28,7 @@ _debug_info() {
     __cononical_name__="${__cononical_name__:=unknown}"
     __contact__="${__contact__:=unknown <unknown>}"
     __created__="${__created__:=yyyy-mm-dd}"
+    __original_args__="${__original_args__:=${*}}"
     __project_home__="${__project_home__:=unknown}"
     __project_name__="${__project_name__:=unknown}"
     __revised__="${__revised__:=yyyymmdd-hhmmss}"
@@ -39,9 +40,9 @@ _debug_info() {
 
     logger debug "Cononical: ${__cononical_name__}"
     logger debug "Abs Path:  ${script_path}/${__basename__}"
-    logger debug "Args List: ${*}"
+    logger debug "Args List: ${__original_args__}"
     logger debug "Version:   ${__version__}"
-    logger debug "md5sum:    $(md5sum "${__basename__}")"
+    logger debug "md5sum:    $(md5sum "${__basename__}" 2>&1)"
     logger debug "Created:   ${__created__}"
     logger debug "Revised:   ${__revised__}"
     logger debug "Coder(s):  ${__author__}"
@@ -49,11 +50,18 @@ _debug_info() {
     logger debug "Project:   ${__project_name__}"
     logger debug "Project Home: ${__project_home__}"
     logger debug "Template Version: ${__template_version__}"
-    logger debug "System:    $(uname -orv)"
-    logger debug "Hostname:  $(hostname)"
-    logger debug "Logname:   $(logname)"
-    logger debug "[re]uid:   $(id -ur)/$(id -u)"
+    logger debug "System:    $(uname -orv 2>&1)"
+    logger debug "Hostname:  $(hostname 2>&1)"
+    logger debug "Logname:   ${USERNAME:=$(logname 2>&1)}"
+    logger debug "[re]uid:   $(id -ur 2>&1)/$(id -u 2>&1)"
     logger debug "PID/PPID:  ${$}/${PPID}"
+    if [ -x /bin/pstree ] || [ -x /usr/bin/pstree ] ; then
+        if pstree -psu ${$} 1>/dev/null 2>&1 ; then
+            logger debug "pstree psu: $(pstree -psu ${$})"
+        else
+            logger debug "pstree pu: $(pstree -pu ${$})"
+        fi
+    fi
     logger debug '-----------------'
     logger debug '----- start -----'
     logger debug '-----------------'

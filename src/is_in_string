@@ -1,0 +1,34 @@
+#!/bin/sh
+# Author:     MyHR, Andy <andy.myhr@metlife.com>
+# Contact:    awmyhr <awmyhr@gmail.com>
+# Project:    Shell Functions
+# Proj Home:  https://github.com/awmyhr/shell-functions
+# Copyright:  2019 awmyhr
+# License:    Apache-2.0
+# Revised:    2019-06-28 # This revision is for the test-suite portion
+# Created:    2019-06-28
+##--==
+#==============================================================================
+is_in_string() {
+    #:"""
+    #: .. function:: is_in_string()
+    #:
+    #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
+    #:
+    #: .. revision:: 2019-06-28
+    #:
+    #: Check if a substring is in a string
+    #:
+    #: :param str needle:   Substring to search for
+    #: :param str heystack: String to search in
+    #:"""
+    case "${2}" in
+        *${1}*) return 0 ;;
+        *)      return 1 ;;
+    esac ;
+}
+##==---
+#==============================================================================
+if ! (return 0 2>/dev/null) ; then
+    is_in_string "${@}"
+fi

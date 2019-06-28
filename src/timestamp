@@ -1,0 +1,47 @@
+#!/bin/sh
+# Author:     MyHR, Andy <andy.myhr@metlife.com>
+# Contact:    awmyhr <awmyhr@gmail.com>
+# Project:    Shell Functions
+# Proj Home:  https://github.com/awmyhr/shell-functions
+# Copyright:  2019 awmyhr
+# License:    Apache-2.0
+# Revised:    2019-06-27 # This revision is for the test-suite portion
+# Created:    2019-06-27
+##--==
+#==============================================================================
+timestamp() {
+    #:"""
+    #: .. function:: timestamp()
+    #:
+    #: Return a timestamp in a defined format.
+    #:
+    #: :param str array: Any params accepted by the date(1) command.
+    #: :return: The date string. Ideally without whitespace.
+    #: :rtype: str
+    #:
+    #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
+    #:
+    #: .. revision:: 20190626-1220
+    #:"""# {% raw %}
+##==---
+    #-- Expected globals ------------------------------------------------------
+    DEFAULT_TIMESTAMP="${DEFAULT_TIMESTAMP:="+%Y%m%d"}"
+    __default_dsf__="${__default_dsf__:=${DEFAULT_TIMESTAMP}}"
+    #--------------------------------------------------------------------------
+##--==
+    if [ "${#}" -eq 0 ]; then # {% endraw %}
+        date "${__default_dsf__}" || return "${?}"
+    else
+        date "${@}" || return "${?}"
+    fi
+
+    return
+}
+##==---
+#==============================================================================
+if ! (return 0 2>/dev/null) ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] ; then
+        unset DEFAULT_TIMESTAMP
+    fi
+    timestamp "${@}"
+fi

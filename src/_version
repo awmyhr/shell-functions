@@ -1,0 +1,52 @@
+#!/bin/sh
+# Author:     MyHR, Andy <andy.myhr@metlife.com>
+# Contact:    awmyhr <awmyhr@gmail.com>
+# Project:    Shell Functions
+# Proj Home:  https://github.com/awmyhr/shell-functions
+# Copyright:  2019 awmyhr
+# License:    Apache-2.0
+# Revised:    2019-06-28 # This revision is for the test-suite portion
+# Created:    2019-06-28
+##--==
+#==============================================================================
+_version() {
+    #:"""
+    #: .. function:: _version()
+    #:
+    #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
+    #:
+    #: .. revision:: 2019-06-28
+    #:
+    #: Provides version information
+    #:
+    #: .. note::
+    #:     GNU guidelines dictate adding copyright and license info
+    #:"""
+##==---
+    #-- Expected globals ------------------------------------------------------
+    __cononical_name__="${__cononical_name__:=unknown}"
+    __copyright__="${__copyright__:=yyyy unknown}"
+    __gnu_version__="${__gnu_version__:=False}"
+    __license__="${__license__:=unknown}"
+    __project_name__="${__project_name__:=unknown}"
+    __version__="${__version__:=x.y.z}"
+    #--------------------------------------------------------------------------
+##--==
+    printf '%s (%s) %s\n' "${__cononical_name__}" "${__project_name__}" "${__version__}"
+    if [ "${__gnu_version__}" = 'True' ]; then
+        printf 'Copyright %s\n' "${__copyright__}"
+        printf 'License %s\n' "${__license__}"
+    fi
+
+    return
+}
+##==---
+#==============================================================================
+if ! (return 0 2>/dev/null) ; then
+    if [ "${1}" = gnu ] ; then
+        __gnu_version__='True'
+        shift
+    fi
+
+    _version "${@}"
+fi

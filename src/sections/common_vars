@@ -1,0 +1,95 @@
+#!/bin/sh
+# Author:     MyHR, Andy <andy.myhr@metlife.com>
+# Contact:    awmyhr <awmyhr@gmail.com>
+# Project:    Shell Functions
+# Proj Home:  https://github.com/awmyhr/shell-functions
+# Copyright:  2019 awmyhr
+# License:    Apache-2.0
+# Revised:    2019-06-28 # This revision is for the test-suite portion
+# Created:    2019-06-28
+##--==
+#==============================================================================
+#: .. section:: General variables & settings
+#: .. revision:: 2019-06-28
+#------------------------------------------------------------------------------
+__basename__="${0}"                                    #: name script run as
+#-- We are not using this variable for now.
+# shellcheck disable=2034
+__docformat__='reStructuredText en'                    #: attempted style for documentation
+__original_args__="${*}"    #: capture original arg list before messing with it
+#------------------------------------------------------------------------------
+#-- Load in environment variables, or set defaults
+__default_dsf__=${DEFAULT_TIMESTAMP:="+%Y%m%d-%H%M%S"} #: Default format for 'date' command
+__logger_dsf__=${LOGGER_DSF:="+%Y%m%d-%H%M%S"}         #: Debug logging output format for 'date' command
+__backup_dsf__=${BACKUP_DSF:="+%Y%m%d-%H%M%S"}         #: Backup file format for 'date' command
+__logger_file__=${LOGGER_FILE:="nil"}                  #: Path & name of log file to use
+case "$(printf '%s' "${LOGGER_LVL:="info"}" | tr '[:upper:]' '[:lower:]')" in
+    debug)          __logger_lvl__=10 ;;
+    info)           __logger_lvl__=20 ;;
+    warn|warning)   __logger_lvl__=30 ;;
+    error)          __logger_lvl__=40 ;;
+    crit|critical)  __logger_lvl__=50 ;;
+    *)              __logger_lvl__=0 ;;
+esac
+#------------------------------------------------------------------------------
+#-- Load colors from environment variables, or set to empty
+cf_black=${cf_black:=''}   ; cf_white=${cf_white:=''}
+cf_orange=${cf_orange:=''} ; cf_magenta=${cf_magenta:=''}
+cf_yellow=${cf_yellow:=''} ; cf_red=${cf_red:=''}
+cf_purple=${cf_purple:=''} ; cf_blue=${cf_blue:=''}
+cf_cyan=${cf_cyan:=''}     ; cf_green=${cf_green:=''}
+c_bold=${c_bold:=''}       ; c_reset=${c_reset:=''}
+c_undr=${c_undr:=''}       ; c_hide=${c_hide:=''}
+c_blik=${c_blik:=''}       ; c_revr=${c_revr:=''}
+#------------------------------------------------------------------------------
+#-- Set some default settings
+#-- NOTE: If you don't want to handle these error conditions yourself,
+#         then uncomment these.
+# set -o errexit  # Exit if any statement returns non-true value
+# set -o nounset  # Exit if attempt to use an uninitialised variable
+#------------------------------------------------------------------------------
+#-- Check for debug & full debug flags
+#   NOTE: this is not POSIX
+if [ "${*#*--debug}" != "${*}" ]; then
+    #-- Only do full shell trace if external DEBUG var set to full
+    [ "${DEBUG}" = 'full' ] && set -o xtrace
+fi
+#------------------------------------------------------------------------------
+#-- Basic environment setup
+#   Ref: https://github.com/fedora-sysv/initscripts)
+#------------------------------------------------------------------------------
+#-- Sane umask
+umask 022
+#-- Sane command search path
+PATH="/sbin:/usr/sbin:/bin:/usr/bin"
+#-- Sane screen width
+[ -z "${COLUMNS:-}" ] && COLUMNS=80
+if [ -z "${CONSOLETYPE:-}" ]; then
+    if [ -c "/dev/stderr" ] && [ -r "/dev/stderr" ]; then
+        if [ -x "$(command -v consoletype)" ] ; then
+            CONSOLETYPE="$(consoletype < /dev/stderr 2>/dev/null)"
+        elif [ -x "$(command -v tty)" ] ; then
+            CONSOLETYPE="$(tty 2>/dev/null | cut -d'/' -f3)"
+        else
+            CONSOLETYPE='unknown'
+        fi
+    else
+        CONSOLETYPE='serial'
+    fi
+fi
+##==---
+#==============================================================================
+if ! (return 0 2>/dev/null) ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] ; then
+        printf '__backup_dsf__="%s"\n'    "${__backup_dsf__}"
+        printf '__basename__="%s"\n'      "${__basename__}"
+        printf '__default_dsf__="%s"\n'   "${__default_dsf__}"
+        printf '__logger_dsf__="%s"\n'    "${__logger_dsf__}"
+        printf '__logger_file__="%s"\n'   "${__logger_file__}"
+        printf '__logger_lvl__="%s"\n'    "${__logger_lvl__}"
+        printf '__original_args__="%s"\n' "${__original_args__}"
+        printf 'COLUMNS=%s\n' "${COLUMNS}"
+        printf 'CONSOLETYPE=%s\n' "${CONSOLETYPE}"
+        printf 'PATH=%s\n' "${PATH}"
+    fi
+fi

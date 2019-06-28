@@ -1,0 +1,67 @@
+#!/bin/sh
+# Author:     MyHR, Andy <andy.myhr@metlife.com>
+# Contact:    awmyhr <awmyhr@gmail.com>
+# Project:    Shell Functions
+# Proj Home:  https://github.com/awmyhr/shell-functions
+# Copyright:  2019 awmyhr
+# License:    Apache-2.0
+# Revised:    2019-06-28 # This revision is for the test-suite portion
+# Created:    2019-06-28
+##--==
+#==============================================================================
+_usage() {
+    #:"""
+    #: .. function:: _usage()
+    #:
+    #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
+    #:
+    #: .. revision:: 2019-06-28
+    #:
+    #: Provides usage information
+    #:
+    #: .. note::
+    #:     GNU does not recommend short options for help/version.
+    #:     I do not recommend short option for, nor display of, debug option.
+    #:     but I do recommend short option for help.
+    #:"""
+##==---
+    #-- Expected globals ------------------------------------------------------
+    __basename__="${__basename__:=${0}}"
+    __cononical_name__="${__cononical_name__:=unknown}"
+    __contact__="${__contact__:=unknown <unknown>}"
+    __copyright__="${__copyright__:=yyyy unknown}"
+    __created__="${__created__:=yyyy-mm-dd}"
+    __description__="${__description__:=long description}"
+    __license__="${__license__:=unknown}"
+    __project_home__="${__project_home__:=unknown}"
+    __project_name__="${__project_name__:=unknown}"
+    __revised__="${__revised__:=yyyymmdd-hhmmss}"
+    __synopsis__="${__synopsis__:=synopsis}"
+    __version__="${__version__:=x.y.z}"
+    #--------------------------------------------------------------------------
+##--==
+    printf 'Usage: %s [options]\n\n' "${__basename__}"
+    printf '%s\n\n' "${__synopsis__}"
+    printf 'Options:\n'
+    usage_options '  %s     %s\n'
+    printf '\n%s\n\n' "${__description__}"
+    printf 'Created: %s  Contact: %s\n' "${__created__}" "${__contact__}"
+    printf 'Revised: %s  Version: %s\n' "${__revised__}" "${__version__}"
+    printf '(c) Copyright %s (License: %s)\n'   "${__copyright__}" "${__license__}"
+    printf '%s, part of %s. Project home: %s\n' "${__cononical_name__}" \
+                                                "${__project_name__}" \
+                                                "${__project_home__}"
+
+    return
+}
+##==---
+#==============================================================================
+if ! (return 0 2>/dev/null) ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f usage_options >/dev/null 2>&1 ; then
+        usage_options() {
+            printf 'Would call usage_options with: %s\n' "${1}"
+    }
+    fi
+
+    _usage "${@}"
+fi

@@ -1,0 +1,56 @@
+#!/bin/sh
+# Author:     MyHR, Andy <andy.myhr@metlife.com>
+# Contact:    awmyhr <awmyhr@gmail.com>
+# Project:    Shell Functions
+# Proj Home:  https://github.com/awmyhr/shell-functions
+# Copyright:  2019 awmyhr
+# License:    Apache-2.0
+# Revised:    2019-06-28 # This revision is for the test-suite portion
+# Created:    2019-06-28
+##--==
+#==============================================================================
+get_temp() {
+    #:"""
+    #: .. function:: get_temp()
+    #:
+    #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
+    #:
+    #: .. revision:: 2019-06-28
+    #:
+    #: Creates a temporary file (or directory), returning the path. Defaults to file.
+    #:
+    #: :param str directory:   Pass any substring of 'directory' to create a directory
+    #:
+    #:"""
+##==---
+    #-- Expected globals ------------------------------------------------------
+    __cononical_name__="${__cononical_name__:=unknown}"
+    #--------------------------------------------------------------------------
+##--==
+    __get_temp_dir='' # {% raw %}
+    if [ "${#}" -eq 1 ] ; then # {% endraw %}
+        case 'directory' in
+            *${1}*) __get_temp_dir='-d' ;;
+            *)      ;;
+        esac ;
+    fi
+    if command -v mktemp >/dev/null 2>&1; then
+        mktemp ${__get_temp_dir} -t "${__cononical_name__}${__get_temp_dir}.XXXXXXXXXX" || return "${?}"
+    else
+        if [ "${__get_temp_dir}" = '' ]; then
+            __get_temp_path="/tmp/${__cononical_name__}.${$}"
+            touch "${__get_temp_path}" || return "${?}"
+        else
+            __get_temp_path="/tmp/${__cononical_name__}-d.${$}"
+            mkdir "${__get_temp_path}" || return "${?}"
+        fi
+        printf '%s' "${__get_temp_path}"
+    fi
+
+    return
+}
+##==---
+#==============================================================================
+if ! (return 0 2>/dev/null) ; then
+    get_temp "${@}"
+fi

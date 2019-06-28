@@ -1,0 +1,71 @@
+#!/bin/sh
+# Author:     MyHR, Andy <andy.myhr@metlife.com>
+# Contact:    awmyhr <awmyhr@gmail.com>
+# Project:    Shell Functions
+# Proj Home:  https://github.com/awmyhr/shell-functions
+# Copyright:  2019 awmyhr
+# License:    Apache-2.0
+# Revised:    2019-06-28 # This revision is for the test-suite portion
+# Created:    2019-06-28
+##--==
+#==============================================================================
+_usage_rest() {
+    #:"""
+    #: .. function:: _usage_rest()
+    #:
+    #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
+    #:
+    #: .. revision:: 2019-06-28
+    #:
+    #: Provides usage information in Sphinx/ReST format.
+    #:
+    #:"""
+##==---
+    #-- Expected globals ------------------------------------------------------
+    __author__="${__author__:=unknown <unknown>}"
+    __cononical_name__="${__cononical_name__:=unknown}"
+    __copyright__="${__copyright__:=yyyy unknown}"
+    __description__="${__description__:=long description}"
+    __license__="${__license__:=unknown}"
+    __synopsis__="${__synopsis__:=synopsis}"
+    #--------------------------------------------------------------------------
+##--==
+    # {% raw %}
+    __usage_rest_char="%${#__cononical_name__}s" # {% endraw %}
+    #-- We are using a variable to format data in printf
+    # shellcheck disable=2059
+    printf "${__usage_rest_char}\\n" | tr " " "="
+    printf '%s\n' "${__cononical_name__}"
+    #-- We are using a variable to format data in printf
+    # shellcheck disable=2059
+    printf "${__usage_rest_char}\\n" | tr " " "="
+    printf '\n'
+    printf 'Synopsis\n'
+    printf '%s\n\n' '--------' "${__synopsis__}"
+    printf '**%s** [*options*]\n\n' "${__cononical_name__}" #: TODO: UPDATE usage
+    printf 'Description\n'
+    printf '%s\n\n' '-----------'
+    printf '%s\n\n' "${__description__}"
+    printf 'Options\n'
+    printf '%s\n\n' '-------'
+    usage_options '.. option:: %s\n\n    %s\n\n'
+    printf 'Author\n'
+    printf '%s\n\n' '------'
+    printf '%s\n\n' "${__author__}"
+    printf 'Copyright\n'
+    printf '%s\n\n' '------'
+    printf '(c) Copyright %s (License: %s)\n\n' "${__copyright__}" "${__license__}"
+
+    return
+}
+##==---
+#==============================================================================
+if ! (return 0 2>/dev/null) ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f usage_options >/dev/null 2>&1 ; then
+        usage_options() {
+            printf 'Would call usage_options with: %s\n' "${1}"
+    }
+    fi
+
+    _usage_rest "${@}"
+fi

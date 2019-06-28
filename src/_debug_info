@@ -1,0 +1,66 @@
+#!/bin/sh
+# Author:     MyHR, Andy <andy.myhr@metlife.com>
+# Contact:    awmyhr <awmyhr@gmail.com>
+# Project:    Shell Functions
+# Proj Home:  https://github.com/awmyhr/shell-functions
+# Copyright:  2019 awmyhr
+# License:    Apache-2.0
+# Revised:    2019-06-28 # This revision is for the test-suite portion
+# Created:    2019-06-28
+##--==
+#==============================================================================
+_debug_info() {
+    #:"""
+    #: .. function:: _debug_info()
+    #:
+    #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
+    #:
+    #: .. revision:: 2019-06-28
+    #:
+    #: Provides meta info for debug-level output
+    #:
+    #: .. note::
+    #:     We set script_path here to avoid calling cd/dirname/pwd when not really needed
+    #:"""
+    # shellcheck disable=SC1007
+    script_path="$(CDPATH= cd -- "$(dirname -- "${0}")" && pwd )"
+
+    logger debug "Cononical: ${__cononical_name__:=unknown}"
+    logger debug "Abs Path:  ${script_path}/${__basename__:=${0}}"
+    logger debug "Args List: ${*}"
+    logger debug "Version:   ${__version__:=x.y.z}"
+    logger debug "md5sum:    $(md5sum "${__basename__:=${0}}")"
+    logger debug "Created:   ${__created__:=yyyy-mm-dd}"
+    logger debug "Revised:   ${__revised__:=yyyymmdd-hhmmss}"
+    logger debug "Coder(s):  ${__author__:=unknown <unknown>}"
+    logger debug "Contact:   ${__contact__:=unknown <unknown>}"
+    logger debug "Project:   ${__project_name__:=unknown}"
+    logger debug "Project Home: ${__project_home__:=unknown}"
+    logger debug "Template Version: ${__template_version__:=z.y.x}"
+    logger debug "System:    $(uname -orv)"
+    logger debug "Hostname:  $(hostname)"
+    logger debug "Logname:   $(logname)"
+    logger debug "[re]uid:   $(id -ur)/$(id -u)"
+    logger debug "PID/PPID:  ${$}/${PPID}"
+    logger debug '-----------------'
+    logger debug '----- start -----'
+    logger debug '-----------------'
+
+    return
+}
+##==---
+#==============================================================================
+if ! (return 0 2>/dev/null) ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] ; then
+        md5sum() {
+            printf 'TestTestTest'
+        }
+    fi
+    if ! declare -f logger >/dev/null 2>&1 ; then
+        logger() {
+            printf '%s %s\n' "${1}" "${2}"
+        }
+    fi
+
+    _debug_info "${@}"
+fi

@@ -1,0 +1,49 @@
+#!/bin/sh
+# Author:     MyHR, Andy <andy.myhr@metlife.com>
+# Contact:    awmyhr <awmyhr@gmail.com>
+# Project:    Shell Functions
+# Proj Home:  https://github.com/awmyhr/shell-functions
+# Copyright:  2019 awmyhr
+# License:    Apache-2.0
+# Revised:    2019-06-28 # This revision is for the test-suite portion
+# Created:    2019-06-28
+body() {
+##--==
+#==============================================================================
+#: .. section:: Body -- This is where The Magic(TM) happens
+#: .. revision:: 2019-06-28
+init
+
+#==============================================================================
+#-- TODO: Do something more interesting here...{#
+logger debug "this is a debug"
+logger info  "this is an info"
+logger warn  "this is a warning"
+logger error "this is an error"
+logger crit  "this is critical"
+#}
+
+#==============================================================================
+exit_clean
+##==---
+}
+#==============================================================================
+if ! (return 0 2>/dev/null) ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f init >/dev/null 2>&1 ; then
+        init() {
+            printf 'Would call init() here.\n'
+        }
+    fi
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f logger >/dev/null 2>&1 ; then
+        logger() {
+            printf '%s - %s\n' "${1}" "${2}"
+        }
+    fi
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f exit_clean >/dev/null 2>&1 ; then
+        exit_clean() {
+            printf 'Would call exit_clean() here.\n'
+            exit 0
+        }
+    fi
+    body "${@}"
+fi

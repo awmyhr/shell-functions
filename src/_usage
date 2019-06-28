@@ -24,6 +24,7 @@ _usage() {
     #:     I do not recommend short option for, nor display of, debug option.
     #:     but I do recommend short option for help.
     #:"""
+##==---
     #-- Expected globals ------------------------------------------------------
     __basename__="${__basename__:=${0}}"
     __cononical_name__="${__cononical_name__:=unknown}"
@@ -38,6 +39,7 @@ _usage() {
     __synopsis__="${__synopsis__:=synopsis}"
     __version__="${__version__:=x.y.z}"
     #--------------------------------------------------------------------------
+##--==
     printf 'Usage: %s [options]\n\n' "${__basename__}"
     printf '%s\n\n' "${__synopsis__}"
     printf 'Options:\n'
@@ -57,15 +59,7 @@ _usage() {
 if ! (return 0 2>/dev/null) ; then
     if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f usage_options >/dev/null 2>&1 ; then
         usage_options() {
-            __usage_option_strfmt="${1}"
-            #-- We are using a variable to format data in printf
-            # shellcheck disable=2059
-            printf "${__usage_option_strfmt}" '--help, -h' 'Dislay this help'
-            #-- We are using a variable to format data in printf
-            # shellcheck disable=2059
-            printf "${__usage_option_strfmt}" '--version ' 'Display version'
-
-            return
+            printf 'Would call usage_options with: %s\n' "${1}"
     }
     fi
 

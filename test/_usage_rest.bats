@@ -19,4 +19,5 @@ load 'libs/bats-file/load'
     assert_line 'unknown'
     assert_line 'Synopsis'
     assert_line 'long description'
+    assert_line 'Would call usage_options with: .. option:: %s\n\n    %s\n\n'
 }

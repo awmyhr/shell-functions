@@ -21,12 +21,12 @@ get_temp() {
     #:
     #: :param str directory:   Pass any substring of 'directory' to create a directory
     #:
-    #: :dep var __cononical_name__:
-    #: :dep func is_in_string:
     #:"""
+##==---
     #-- Expected globals ------------------------------------------------------
     __cononical_name__="${__cononical_name__:=unknown}"
     #--------------------------------------------------------------------------
+##--==
     __get_temp_dir='' # {% raw %}
     if [ "${#}" -eq 1 ] ; then # {% endraw %}
         case 'directory' in

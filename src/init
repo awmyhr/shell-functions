@@ -19,6 +19,7 @@ init() {
     #:
     #: Check for requirements, other set-up stuff
     #:"""
+##==---
     #-- Expected globals ------------------------------------------------------
     __backup_dsf__="${__backup_dsf__:="+%Y%m%d-%H%M%S"}"
     __container_safe__="${__container_safe__:=false}"
@@ -26,6 +27,7 @@ init() {
     __logger_file_set__=${__logger_file_set__:=false}
     __require_root__="${__require_root__:=false}"
     #--------------------------------------------------------------------------
+##--==
     #--------------------------------------------------------------------------
     #-- Check if effectively root
     #--------------------------------------------------------------------------
@@ -75,7 +77,6 @@ if ! (return 0 2>/dev/null) ; then
                 return 1
             fi
         }
-        :
     fi
     if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f _debug_info >/dev/null 2>&1 ; then
         _debug_info() {

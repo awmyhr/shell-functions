@@ -17,6 +17,6 @@ load 'libs/bats-file/load'
     assert_success
     assert_line 'Usage: test [options]'
     assert_line 'synopsis'
-    assert_line '  --version      Display version'
+    assert_line 'Would call usage_options with:   %s     %s\n'
     assert_line 'long description'
 }

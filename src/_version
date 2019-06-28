@@ -22,6 +22,7 @@ _version() {
     #: .. note::
     #:     GNU guidelines dictate adding copyright and license info
     #:"""
+##==---
     #-- Expected globals ------------------------------------------------------
     __cononical_name__="${__cononical_name__:=unknown}"
     __copyright__="${__copyright__:=yyyy unknown}"
@@ -30,6 +31,7 @@ _version() {
     __project_name__="${__project_name__:=unknown}"
     __version__="${__version__:=x.y.z}"
     #--------------------------------------------------------------------------
+##--==
     printf '%s (%s) %s\n' "${__cononical_name__}" "${__project_name__}" "${__version__}"
     if [ "${__gnu_version__}" = 'True' ]; then
         printf 'Copyright %s\n' "${__copyright__}"

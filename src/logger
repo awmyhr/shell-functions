@@ -26,6 +26,7 @@ logger() {
     #:     Kumarappan), but I think there is very little left of the original
     #:     code here. See: https://github.com/nk412/tinylogger
     #:"""
+##==---
     #-- Expected globals ------------------------------------------------------
     cf_blue=${cf_blue:=''}     ; cf_green=${cf_green:=''}     ; cf_white=${cf_white:=''}
     cf_yellow=${cf_yellow:=''} ; cf_magenta=${cf_magenta:=''} ; cf_red=${cf_red:=''}
@@ -36,6 +37,7 @@ logger() {
     __logger_lvl__="${__logger_lvl__:=20}"
     __script_debug__=${__script_debug__:='false'}
     #--------------------------------------------------------------------------
+##--==
     case "$(printf '%s' "${1}")" in
         debug)          __logger_action_tag='DEBUG'    ; __logger_log_level_th=10 ;;
         info)           __logger_action_tag='INFO'     ; __logger_log_level_th=20 ;;

@@ -22,6 +22,7 @@ _debug_info() {
     #: .. note::
     #:     We set script_path here to avoid calling cd/dirname/pwd when not really needed
     #:"""
+##==---
     #-- Expected globals ------------------------------------------------------
     __author__="${__author__:=unknown <unknown>}"
     __basename__="${__basename__:=${0}}"
@@ -35,6 +36,7 @@ _debug_info() {
     __template_version__="${__template_version__:=z.y.x}"
     __version__="${__version__:=x.y.z}"
     #--------------------------------------------------------------------------
+##--==
     # shellcheck disable=SC1007
     script_path="$(CDPATH= cd -- "$(dirname -- "${0}")" && pwd )"
 

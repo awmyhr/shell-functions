@@ -21,12 +21,14 @@ exit_clean() {
     #: .. warning::
     #:     This function exits the script
     #:"""
+##==---
     #-- Expected globals ------------------------------------------------------
     __logger_dsf__="${__logger_dsf__:="+%Y%m%d"}"
     __logger_file__="${__logger_file__:=unknown}"
     __logger_file_set__=${__logger_file_set__:='false'}
     __script_debug__=${__script_debug__:='false'}
     #--------------------------------------------------------------------------
+##--==
     [ "${__script_debug__}" = true ] && {
         set +o xtrace
         logger debug '-----------------'

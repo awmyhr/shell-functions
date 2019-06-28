@@ -20,9 +20,11 @@ _usage_ec() {
     #: Print reStructuredText-compatible table of exit conditions
     #:"""
     # NOTE: This is not yet POSIX-safe
+##==---
     #-- Expected globals ------------------------------------------------------
     __basename__="${__basename__:=${0}}"
     #--------------------------------------------------------------------------
+##--==
     __usage_ec_lst=$(grep exit_error "${__basename__}" \
                     | sed 's/.*exit_error //g' \
                     | grep '^[0-9]' \

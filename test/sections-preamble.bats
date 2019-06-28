@@ -12,7 +12,7 @@ load 'libs/bats-support/load'
 load 'libs/bats-assert/load'
 load 'libs/bats-file/load'
 
-@test 'Section: preamble (uniqe settings)' {
+@test 'Section: preamble (uniqe settings - override this)' {
     RUN_UNIT_TEST='true' run src/sections/preamble
     assert_success
     assert_line '__container_safe__="false"'

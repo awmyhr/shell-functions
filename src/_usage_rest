@@ -20,6 +20,7 @@ _usage_rest() {
     #: Provides usage information in Sphinx/ReST format.
     #:
     #:"""
+##==---
     #-- Expected globals ------------------------------------------------------
     __author__="${__author__:=unknown <unknown>}"
     __cononical_name__="${__cononical_name__:=unknown}"
@@ -28,6 +29,7 @@ _usage_rest() {
     __license__="${__license__:=unknown}"
     __synopsis__="${__synopsis__:=synopsis}"
     #--------------------------------------------------------------------------
+##--==
     # {% raw %}
     __usage_rest_char="%${#__cononical_name__}s" # {% endraw %}
     #-- We are using a variable to format data in printf
@@ -61,15 +63,7 @@ _usage_rest() {
 if ! (return 0 2>/dev/null) ; then
     if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f usage_options >/dev/null 2>&1 ; then
         usage_options() {
-            __usage_option_strfmt="${1}"
-            #-- We are using a variable to format data in printf
-            # shellcheck disable=2059
-            printf "${__usage_option_strfmt}" '--help, -h' 'Dislay this help'
-            #-- We are using a variable to format data in printf
-            # shellcheck disable=2059
-            printf "${__usage_option_strfmt}" '--version ' 'Display version'
-
-            return
+            printf 'Would call usage_options with: %s\n' "${1}"
     }
     fi
 

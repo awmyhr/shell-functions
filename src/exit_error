@@ -57,13 +57,15 @@ exit_error() {
     #: .. warning::
     #:     This function exits the script
     #:"""
+##==---
     #-- Expected globals ------------------------------------------------------
     cf_red=${cf_red:=''} ; c_bold=${c_bold:=''}; c_reset=${c_reset:=''}
     __cononical_name__="${__cononical_name__:=unknown}"
     __logger_dsf__="${__logger_dsf__:="+%Y%m%d"}"
     __logger_file__="${__logger_file__:=unknown}"
-    __logger_file_set__=${__logger_file_set__:='false'}
+    __logger_file_set__=${__logger_file_set__:=false}
     #--------------------------------------------------------------------------# {% raw %}
+##--==
     if [ "${#}" -eq 2 ] ; then # {% endraw %}
         __exit_error_code="${1}"
         __exit_error_mess="${2}"

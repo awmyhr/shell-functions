@@ -1,0 +1,92 @@
+#!/bin/sh
+# Author:     MyHR, Andy <andy.myhr@metlife.com>
+# Contact:    awmyhr <awmyhr@gmail.com>
+# Project:    Shell Functions
+# Proj Home:  https://github.com/awmyhr/shell-functions
+# Copyright:  2019 awmyhr
+# License:    Apache-2.0
+# Revised:    2019-06-28 # This revision is for the test-suite portion
+# Created:    2019-06-28
+##--==
+#==============================================================================
+init() {
+    #:"""
+    #: .. function:: init()
+    #:
+    #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
+    #:
+    #: .. revision:: 2019-06-28
+    #:
+    #: Check for requirements, other set-up stuff
+    #:"""
+    #-- Expected globals ------------------------------------------------------
+    __backup_dsf__="${__backup_dsf__:="+%Y%m%d-%H%M%S"}"
+    __container_safe__="${__container_safe__:=false}"
+    __logger_file__="${__logger_file__:=unknown}"
+    __logger_file_set__=${__logger_file_set__:=false}
+    __require_root__="${__require_root__:=false}"
+    #--------------------------------------------------------------------------
+    #--------------------------------------------------------------------------
+    #-- Check if effectively root
+    #--------------------------------------------------------------------------
+    if is_true "${__require_root__}" && [ "$(id -u)" -ne 0 ] ; then
+      exit_error 77 'Must be run as root.'
+    fi
+    #--------------------------------------------------------------------------
+    #-- Check if running inside Docker container
+    #--------------------------------------------------------------------------
+    if is_false "${__container_safe__}" && grep -q '/docker' /proc/self/cgroup ; then
+      exit_error 78 'This script is not container safe.'
+    fi
+    #--------------------------------------------------------------------------
+    #-- Set up log file
+    if [ "${__logger_file__}" != "nil" ]; then
+        mkdir -p "$(dirname "${__logger_file__}")"
+        if [ -f "${__logger_file__}" ] ; then
+            mv "${__logger_file__}" "${__logger_file__}"."$(timestamp "${__backup_dsf__}")"
+        fi
+        exec 3<> "${__logger_file__}" || exit 1
+        __logger_file_set__='true'
+    else
+        exec 3>&1 || exit 1
+        __logger_file_set__='false'
+    fi
+    _debug_info
+    #--------------------------------------------------------------------------
+    return
+}
+##==---
+#==============================================================================
+if ! (return 0 2>/dev/null) ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f is_true >/dev/null 2>&1 ; then
+        is_true() {
+            if [ "${1}" = 'true' ] ; then
+                return 0
+            else
+                return 1
+            fi
+        }
+    fi
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f is_false >/dev/null 2>&1 ; then
+        is_false() {
+            if [ "${1}" = 'false' ] ; then
+                return 0
+            else
+                return 1
+            fi
+        }
+        :
+    fi
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f _debug_info >/dev/null 2>&1 ; then
+        _debug_info() {
+            printf 'Would call _debug_info() here.\n'
+        }
+    fi
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f timestamp >/dev/null 2>&1 ; then
+        timestamp() {
+            printf '%s' "${1}"
+        }
+    fi
+
+    init "${@}"
+fi

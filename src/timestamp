@@ -24,7 +24,8 @@ timestamp() {
     #: .. revision:: 20190626-1220
     #:"""
     #-- Expected globals ------------------------------------------------------
-    __default_dsf__="${__default_dsf__:="+%Y%m%d"}"
+    DEFAULT_TIMESTAMP="${DEFAULT_TIMESTAMP:="+%Y%m%d"}"
+    __default_dsf__="${__default_dsf__:=${DEFAULT_TIMESTAMP}}"
     #--------------------------------------------------------------------------
     if [ "${#}" -eq 0 ]; then
         date "${__default_dsf__}" || return "${?}"
@@ -39,8 +40,6 @@ timestamp() {
 if ! (return 0 2>/dev/null) ; then
     if [ "${RUN_UNIT_TEST}" = 'true' ] ; then
         unset DEFAULT_TIMESTAMP
-    else
-        __default_dsf__="${DEFAULT_TIMESTAMP:="+%Y%m%d"}"
     fi
     timestamp "${@}"
 fi

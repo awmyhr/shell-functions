@@ -1,0 +1,60 @@
+#!/bin/sh
+# Author:     MyHR, Andy <andy.myhr@metlife.com>
+# Contact:    awmyhr <awmyhr@gmail.com>
+# Project:    Shell Functions
+# Proj Home:  https://github.com/awmyhr/shell-functions
+# Copyright:  2019 awmyhr
+# License:    Apache-2.0
+# Revised:    2019-06-28 # This revision is for the test-suite portion
+# Created:    2019-06-28
+##--==
+#==============================================================================
+set_value() {
+    #:"""
+    #: .. function:: set_value()
+    #:
+    #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
+    #:
+    #: .. revision:: 2019-06-28
+    #:
+    #: Add or change a KEY to a VALUE in a FILE, creating FILE if necessary.
+    #:
+    #: :param str file:   File to create/modify
+    #: :param str key:    Key to create/modify
+    #: :param str value:  Value to set key to
+    #: :param str quote:  set to 'noquote' if value is to be unquoted
+    #:"""
+    if [ "${#}" -ne 3 ] && [ "${#}" -ne 4 ] ; then
+        return 64
+    fi
+    __set_value_file="${1}"
+    __set_value_key="${2}"
+    __set_value_value="${3}"
+    if ! [ "${4}" = 'noquote' ] ; then
+        __set_value_value="'${__set_value_value}'"
+    fi
+    if sed -h 2>&1 | grep -q '\-E' ; then
+        __set_value_sedopt='-E'
+    else
+        __set_value_sedopt='-r'
+    fi
+
+    if [ ! -e "${__set_value_file}" ] ; then
+        touch "${__set_value_file}" || return "${?}"
+    fi
+    if grep -q "^${__set_value_key}=" "${__set_value_file}" ; then
+        sed -i ${__set_value_sedopt} \
+            "s|^${__set_value_key} *=.*|${__set_value_key}=${__set_value_value}|" \
+            "${__set_value_file}" || return "${?}"
+    else
+        printf '%s=%s\n' "${__set_value_key}" "${__set_value_value}" \
+            >> "${__set_value_file}" || return "${?}"
+    fi
+
+    return
+}
+##==---
+#==============================================================================
+if ! (return 0 2>/dev/null) ; then
+    set_value "${@}"
+fi

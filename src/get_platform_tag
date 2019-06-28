@@ -1,0 +1,48 @@
+#!/bin/sh
+# Author:     MyHR, Andy <andy.myhr@metlife.com>
+# Contact:    awmyhr <awmyhr@gmail.com>
+# Project:    Shell Functions
+# Proj Home:  https://github.com/awmyhr/shell-functions
+# Copyright:  2019 awmyhr
+# License:    Apache-2.0
+# Revised:    2019-06-28 # This revision is for the test-suite portion
+# Created:    2019-06-28
+##--==
+#==============================================================================
+get_platform_tag() {
+    #:"""
+    #: .. function:: get_platform_tag()
+    #:
+    #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
+    #:
+    #: .. revision:: 2019-06-28
+    #:
+    #: Identify underlining 'hardware' platform and return tag.
+    #:
+    #: .. note:: FKA identify_platform()
+    #:"""
+    __get_platform_tag='unknown'
+    if [ -f '/sys/devices/virtual/dmi/id/sys_vendor' ] ; then
+        __get_platform_tag_sys_vendor="$(cat /sys/devices/virtual/dmi/id/sys_vendor)"
+        case "${__get_platform_tag_sys_vendor}" in
+            'Microsoft Corporation') __get_platform_tag='azure' ;;
+            'VMware, Inc.')          __get_platform_tag='vmware' ;;
+            'innotek GmbH')          __get_platform_tag='vbox' ;;
+            *)                       __get_platform_tag='other' ;;
+        esac
+    fi
+
+    printf '%s' "${__get_platform_tag}"
+    return
+}
+##==---
+#==============================================================================
+if ! (return 0 2>/dev/null) ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] ; then
+        cat() {
+            printf '%s' "${MOCK_CAT}"
+        }
+        MOCK_CAT="${1}"
+    fi
+    get_platform_tag "${@}"
+fi

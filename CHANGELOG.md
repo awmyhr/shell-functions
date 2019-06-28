@@ -14,6 +14,13 @@ however the project itself uses date versioning.
 
 ---
 
+## [20190628]
+- Initial release. Functions are based on the 'shell-script' template from
+  the [newfile](https://github.com/awmyhr/newfile) project, and can be used
+  to construct it.
+
+---
+
 ## [Unreleased]
 ### Added
 

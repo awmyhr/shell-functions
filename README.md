@@ -1,6 +1,6 @@
 # Shell Functions _(shell-functions)_
 
-> TODO: CHANGEME
+> A collection of useful shell functions with unit tests.
 
 ## Table of Contents
 

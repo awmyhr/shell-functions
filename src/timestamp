@@ -23,8 +23,11 @@ timestamp() {
     #:
     #: .. revision:: 20190626-1220
     #:"""
+    #-- Expected globals ------------------------------------------------------
+    __default_dsf__="${__default_dsf__:="+%Y%m%d"}"
+    #--------------------------------------------------------------------------
     if [ "${#}" -eq 0 ]; then
-        date "${__default_dsf__:="+%Y%m%d"}" || return "${?}"
+        date "${__default_dsf__}" || return "${?}"
     else
         date "${@}" || return "${?}"
     fi

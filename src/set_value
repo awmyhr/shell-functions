@@ -19,10 +19,10 @@ set_value() {
     #:
     #: Add or change a KEY to a VALUE in a FILE, creating FILE if necessary.
     #:
-    #: :param str file:   File to create/modify
-    #: :param str key:    Key to create/modify
-    #: :param str value:  Value to set key to
-    #: :param str quote:  set to 'noquote' if value is to be unquoted
+    #: :param str file:   FILE to create/modify
+    #: :param str key:    KEY to create/modify
+    #: :param str value:  VALUE to set key to
+    #: :param str quote:  set to 'noquote' if VALUE should not be quoted
     #:"""
     if [ "${#}" -ne 3 ] && [ "${#}" -ne 4 ] ; then
         return 64

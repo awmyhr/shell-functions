@@ -1,0 +1,99 @@
+#!/bin/sh
+# Author:     MyHR, Andy <andy.myhr@metlife.com>
+# Contact:    awmyhr <awmyhr@gmail.com>
+# Project:    Shell Functions
+# Proj Home:  https://github.com/awmyhr/shell-functions
+# Copyright:  2019 awmyhr
+# License:    Apache-2.0
+# Revised:    2019-06-28 # This revision is for the test-suite portion
+# Created:    2019-06-28
+##--==
+#==============================================================================
+_exit_trap() {
+    #:"""
+    #: .. function:: exit_error()
+    #:
+    #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
+    #:
+    #: .. revision:: 2019-06-28
+    #:
+    #: On terminal traps, run this before exit_error
+    #:
+    #: :param int trap_line: Line number trap caught on
+    #: :param str trap_name: Short name of trap
+    #: .. warning::
+    #:     This function calls exit_error, which exits the script
+    #:"""
+    exit_error "${?}" "caught trap ${2} at line ${1}; exiting"
+}
+#:"""
+#: .. note::
+#:     Setting traps seprately for 2 reasons:
+#:
+#:         - Avoid calling "$(kill -l $((trap_num - 128)))" in exti_trap
+#:         - Incase we want to handle them differently in the future
+#:
+#: .. describe:: Bug
+#:     Passing LINENO may not be working as expected, need more real-world tests
+#:"""
+trap '_exit_trap ${LINENO} INT'  INT
+trap '_exit_trap ${LINENO} TERM' TERM
+trap '_exit_trap ${LINENO} HUP'  HUP
+#==============================================================================
+exit_error() {
+    #:"""
+    #: .. function:: exit_error()
+    #:
+    #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
+    #:
+    #: .. revision:: 2019-06-28
+    #:
+    #: Report error and exit
+    #:
+    #: :param int error_number:  Number to use for Exit Code
+    #: :param str error_string:  Short description of error
+    #: .. note::
+    #:     You may want to use ${LINENO} in the string this is called with.
+    #: .. warning::
+    #:     This function exits the script
+    #:"""
+    #-- Expected globals ------------------------------------------------------
+    cf_red=${cf_red:=''} ; c_bold=${c_bold:=''}; c_reset=${c_reset:=''}
+    __cononical_name__="${__cononical_name__:=unknown}"
+    __logger_dsf__="${__logger_dsf__:="+%Y%m%d"}"
+    __logger_file__="${__logger_file__:=unknown}"
+    __logger_file_set__=${__logger_file_set__:='false'}
+    #--------------------------------------------------------------------------
+    if [ "${#}" -eq 2 ] ; then
+        __exit_error_code="${1}"
+        __exit_error_mess="${2}"
+    else
+        __exit_error_code=128
+        __exit_error_mess='Invalid arguments for exit_error()'
+    fi
+
+    trap - INT TERM HUP
+    printf '%s: %s\n' "${cf_red}${__cononical_name__}" \
+                      "${c_bold}${__exit_error_mess}${c_reset}" 1>&2
+    if [ "${__logger_file_set__}" = "true" ]; then
+        printf '%s [EXIT]: %s\n' "$(timestamp "${__logger_dsf__}")" "${__exit_error_mess}" 1>&3
+        printf 'Log file created: %s\n' "${__logger_file__}"
+        exec 3>&-
+    fi
+    exit "${__exit_error_code}"
+}
+##==---
+#==============================================================================
+if ! (return 0 2>/dev/null) ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f logger >/dev/null 2>&1 ; then
+        cf_red='' ; c_bold='' ; c_reset=''
+        logger() {
+            printf '%s %s\n' "${1}" "${2}"
+        }
+        timestamp() {
+            printf '%s' "${1}"
+        }
+        exec 3>&1 || exit 1
+    fi
+    exit_error "${@}"
+fi

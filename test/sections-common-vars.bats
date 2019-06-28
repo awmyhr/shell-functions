@@ -13,7 +13,7 @@ load 'libs/bats-assert/load'
 load 'libs/bats-file/load'
 
 @test "common_vars() for successfull settings" {
-    RUN_UNIT_TEST='true' run src/common_vars
+    RUN_UNIT_TEST='true' run src/sections/common_vars
     assert_success
     assert_line '+%Y%m%d-%H%M%S'
     assert_line --partial 'common_vars'

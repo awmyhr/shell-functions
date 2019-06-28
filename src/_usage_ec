@@ -1,0 +1,50 @@
+#!/bin/sh
+# Author:     MyHR, Andy <andy.myhr@metlife.com>
+# Contact:    awmyhr <awmyhr@gmail.com>
+# Project:    Shell Functions
+# Proj Home:  https://github.com/awmyhr/shell-functions
+# Copyright:  2019 awmyhr
+# License:    Apache-2.0
+# Revised:    2019-06-28 # This revision is for the test-suite portion
+# Created:    2019-06-28
+##--==
+#==============================================================================
+_usage_ec() {
+    #:"""
+    #: .. function:: _usage_ec()
+    #:
+    #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
+    #:
+    #: .. revision:: 2019-06-28
+    #:
+    #: Print reStructuredText-compatible table of exit conditions
+    #:"""
+    # TODO: This is not yet POSIX-safe
+    #-- Expected globals ------------------------------------------------------
+    __basename__="${__basename__:=${0}}"
+    #--------------------------------------------------------------------------
+    __usage_ec_lst=$(grep exit_error "${__basename__}" \
+                    | sed 's/.*exit_error //g' \
+                    | grep '^[0-9]' \
+                    | sed 's/.[0-9-][0-9-]\.[0-9][0-9]//g' \
+                    | sed 's/ *;;//g' \
+                    | tr -d '"' | tr -d "'" \
+                    | sort -u | sort -n) # \
+        #| awk '{printf "| " $1 " | "; for (i=2; i<NF; i++) printf $i " "; print $NF " |"}'
+    while read -r __usage_ec_line ; do
+        __usage_ec_num="$(printf '%s' "${__usage_ec_line}" | cut -d' ' -f1)"
+        __usage_ec_des="$(printf '%s' "${__usage_ec_line}" | cut -d' ' -f2- | cut -c -67)"
+        printf '| %3d | %-67s |\n' "${__usage_ec_num}" "${__usage_ec_des}"
+    done <<< "${__usage_ec_lst}"
+
+    return
+}
+##==---
+#==============================================================================
+#-- Test cases:
+#   exit_error 64 'Invalid argument'
+#   exit_error 77 'Must be run as root.'
+#   exit_error 78 'Invalid hostname (see RFC 1123).'
+if ! (return 0 2>/dev/null) ; then
+    _usage_ec "${@}"
+fi

@@ -5,7 +5,7 @@
 # Proj Home:  https://github.com/awmyhr/shell-functions
 # Copyright:  2019 awmyhr
 # License:    Apache-2.0
-# Revised:    2019-06-28 # This revision is for the test-suite portion
+# Revised:    2019-07-05 # This revision is for the test-suite portion
 # Created:    2019-06-28
 ##--==
 #==============================================================================
@@ -15,7 +15,7 @@ init() {
     #:
     #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
     #:
-    #: .. revision:: 2019-06-28
+    #: .. revision:: 2019-07-05
     #:
     #: Check for requirements, other set-up stuff
     #:"""
@@ -45,7 +45,7 @@ init() {
     if [ "${__logger_file__}" != "nil" ]; then
         mkdir -p "$(dirname "${__logger_file__}")"
         if [ -f "${__logger_file__}" ] ; then
-            mv "${__logger_file__}" "${__logger_file__}"."$(timestamp "${__backup_dsf__}")"
+            mv "${__logger_file__}" "${__logger_file__}"."$(get_timestamp "${__backup_dsf__}")"
         fi
         exec 3<> "${__logger_file__}" || exit 1
         __logger_file_set__='true'
@@ -83,8 +83,8 @@ if ! (return 0 2>/dev/null) ; then
             printf 'Would call _debug_info() here.\n'
         }
     fi
-    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f timestamp >/dev/null 2>&1 ; then
-        timestamp() {
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f get_timestamp >/dev/null 2>&1 ; then
+        get_timestamp() {
             printf '%s' "${1}"
         }
     fi

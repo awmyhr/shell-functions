@@ -39,7 +39,7 @@ exit_clean() {
 
     trap - INT TERM HUP
     if [ "${__logger_file_set__}" = "true" ]; then
-        printf '%s [EXIT]: Script finished.\n' "$(timestamp "${__logger_dsf__}")" 1>&3
+        printf '%s [EXIT]: Script finished.\n' "$(get_timestamp "${__logger_dsf__}")" 1>&3
         printf 'Log file created: %s\n' "${__logger_file__}"
         exec 3>&-
     fi
@@ -54,7 +54,7 @@ if ! (return 0 2>/dev/null) ; then
         logger() {
             printf '%s %s\n' "${1}" "${2}"
         }
-        timestamp() {
+        get_timestamp() {
             printf '%s' "${1}"
         }
         exec 3>&1 || exit 1

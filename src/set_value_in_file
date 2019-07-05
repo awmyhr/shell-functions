@@ -5,17 +5,17 @@
 # Proj Home:  https://github.com/awmyhr/shell-functions
 # Copyright:  2019 awmyhr
 # License:    Apache-2.0
-# Revised:    2019-06-28 # This revision is for the test-suite portion
+# Revised:    2019-07-05 # This revision is for the test-suite portion
 # Created:    2019-06-28
 ##--==
 #==============================================================================
-set_value() {
+set_value_in_file() {
     #:"""
-    #: .. function:: set_value()
+    #: .. function:: set_value_in_file()
     #:
     #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
     #:
-    #: .. revision:: 2019-06-28
+    #: .. revision:: 2019-07-05
     #:
     #: Add or change a KEY to a VALUE in a FILE, creating FILE if necessary.
     #:
@@ -27,28 +27,28 @@ set_value() {
     if [ "${#}" -ne 3 ] && [ "${#}" -ne 4 ] ; then # {% endraw %}
         return 64
     fi
-    __set_value_file="${1}"
-    __set_value_key="${2}"
-    __set_value_value="${3}"
+    __set_value_in_file_file="${1}"
+    __set_value_in_file_key="${2}"
+    __set_value_in_file_value="${3}"
     if ! [ "${4}" = 'noquote' ] ; then
-        __set_value_value="'${__set_value_value}'"
+        __set_value_in_file_value="'${__set_value_in_file_value}'"
     fi
     if sed -h 2>&1 | grep -q '\-E' ; then
-        __set_value_sedopt='-E'
+        __set_value_in_file_sedopt='-E'
     else
-        __set_value_sedopt='-r'
+        __set_value_in_file_sedopt='-r'
     fi
 
-    if [ ! -e "${__set_value_file}" ] ; then
-        touch "${__set_value_file}" || return "${?}"
+    if [ ! -e "${__set_value_in_file_file}" ] ; then
+        touch "${__set_value_in_file_file}" || return "${?}"
     fi
-    if grep -q "^${__set_value_key}=" "${__set_value_file}" ; then
-        sed -i ${__set_value_sedopt} \
-            "s|^${__set_value_key} *=.*|${__set_value_key}=${__set_value_value}|" \
-            "${__set_value_file}" || return "${?}"
+    if grep -q "^${__set_value_in_file_key}=" "${__set_value_in_file_file}" ; then
+        sed -i ${__set_value_in_file_sedopt} \
+            "s|^${__set_value_in_file_key} *=.*|${__set_value_in_file_key}=${__set_value_in_file_value}|" \
+            "${__set_value_in_file_file}" || return "${?}"
     else
-        printf '%s=%s\n' "${__set_value_key}" "${__set_value_value}" \
-            >> "${__set_value_file}" || return "${?}"
+        printf '%s=%s\n' "${__set_value_in_file_key}" "${__set_value_in_file_value}" \
+            >> "${__set_value_in_file_file}" || return "${?}"
     fi
 
     return
@@ -56,5 +56,5 @@ set_value() {
 ##==---
 #==============================================================================
 if ! (return 0 2>/dev/null) ; then
-    set_value "${@}"
+    set_value_in_file "${@}"
 fi

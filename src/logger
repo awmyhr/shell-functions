@@ -5,7 +5,7 @@
 # Proj Home:  https://github.com/awmyhr/shell-functions
 # Copyright:  2019 awmyhr
 # License:    Apache-2.0
-# Revised:    2019-06-28 # This revision is for the test-suite portion
+# Revised:    2019-07-05 # This revision is for the test-suite portion
 # Created:    2019-06-28
 ##--==
 #==============================================================================
@@ -15,7 +15,7 @@ logger() {
     #:
     #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
     #:
-    #: .. revision:: 2019-06-28
+    #: .. revision:: 2019-07-05
     #:
     #: Provides an interface similar to Python's logging module
     #:
@@ -49,13 +49,13 @@ logger() {
     shift
 
     if [ "${__logger_file_set__}" = "true" ]; then
-        printf '%s [%s]: %s\n' "$(timestamp "${__logger_dsf__}")" \
+        printf '%s [%s]: %s\n' "$(get_timestamp "${__logger_dsf__}")" \
                                "${__logger_action_tag}" "${@}" 1>&3
     fi
 
     if [ "${__logger_lvl__}" -le "${__logger_log_level_th}" ]; then
         if [ "${__script_debug__}" = true ]; then
-            printf '%s %-10s ' "${cf_blue}$(timestamp "${__logger_dsf__}")" \
+            printf '%s %-10s ' "${cf_blue}$(get_timestamp "${__logger_dsf__}")" \
                                "${__logger_action_tag}${c_reset}"
         fi
         if [ "${__logger_log_level_th}" -le 10 ]; then
@@ -80,7 +80,7 @@ if ! (return 0 2>/dev/null) ; then
         cf_blue=''    ; cf_green=''   ; cf_white=''
         cf_yellow=''  ; cf_magenta='' ; cf_red=''
         c_reset=''
-        timestamp() {
+        get_timestamp() {
             printf '%s' "${1}"
         }
         exec 3>&1 || exit 1

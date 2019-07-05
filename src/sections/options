@@ -5,7 +5,7 @@
 # Proj Home:  https://github.com/awmyhr/shell-functions
 # Copyright:  2019 awmyhr
 # License:    Apache-2.0
-# Revised:    2019-06-28 # This revision is for the test-suite portion
+# Revised:    2019-07-05 # This revision is for the test-suite portion
 # Created:    2019-06-28
 ##--==
 #==============================================================================
@@ -15,7 +15,7 @@ usage_options() {
     #:
     #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
     #:
-    #: .. revision:: 2019-06-28
+    #: .. revision:: 2019-07-05
     #:"""
     #:
     #: :param str option_strfmt: The format to use.
@@ -42,7 +42,7 @@ usage_options() {
 process_options() {
     #-- Expected globals ------------------------------------------------------
     __script_debug__="${__script_debug__:=false}"
-    __logger_lvl__="${__logger_lvl__:=20}"
+    __logln_lvl__="${__logln_lvl__:=20}"
     #--------------------------------------------------------------------------
 ##--==
 #==============================================================================
@@ -55,7 +55,7 @@ process_options() {
 while [ "${#}" -gt 0 ]; do  # {% endraw %}
     case "${1}" in
         --debug)     __script_debug__='true'
-                     __logger_lvl__=10 ;;
+                     __logln_lvl__=10 ;;
         -h|--help)   _usage      && exit 0 ;;
         --help-ec)   _usage_ec   && exit 0 ;;
         --help-rest) _usage_rest && exit 0 ;;
@@ -101,5 +101,5 @@ if ! (return 0 2>/dev/null) ; then
     fi
     process_options "${@}"
     printf '__script_debug__="%s"\n' "${__script_debug__}"
-    printf '__logger_lvl__="%s"\n'   "${__logger_lvl__}"
+    printf '__logln_lvl__="%s"\n'   "${__logln_lvl__}"
 fi

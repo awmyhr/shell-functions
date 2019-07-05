@@ -5,7 +5,7 @@
 # Proj Home:  https://github.com/awmyhr/shell-functions
 # Copyright:  2019 awmyhr
 # License:    Apache-2.0
-# Revised:    2019-06-28 # This revision is for the test-suite portion
+# Revised:    2019-07-05 # This revision is for the test-suite portion
 # Created:    2019-06-28
 ##--==
 #==============================================================================
@@ -15,7 +15,7 @@ exit_clean() {
     #:
     #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
     #:
-    #: .. revision:: 2019-06-28
+    #: .. revision:: 2019-07-05
     #:
     #: Clean up everything and exit gracefully
     #: .. warning::
@@ -23,24 +23,24 @@ exit_clean() {
     #:"""
 ##==---
     #-- Expected globals ------------------------------------------------------
-    __logger_dsf__="${__logger_dsf__:="+%Y%m%d"}"
-    __logger_file__="${__logger_file__:=unknown}"
-    __logger_file_set__=${__logger_file_set__:='false'}
+    __logln_dsf__="${__logln_dsf__:="+%Y%m%d"}"
+    __logln_file__="${__logln_file__:=unknown}"
+    __logln_file_set__=${__logln_file_set__:='false'}
     __script_debug__=${__script_debug__:='false'}
     #--------------------------------------------------------------------------
 ##--==
     [ "${__script_debug__}" = true ] && {
         set +o xtrace
-        logger debug '-----------------'
-        logger debug '------ end ------'
-        logger debug '-----------------'
+        logln debug '-----------------'
+        logln debug '------ end ------'
+        logln debug '-----------------'
         __script_debug__=false
     }
 
     trap - INT TERM HUP
-    if [ "${__logger_file_set__}" = "true" ]; then
-        printf '%s [EXIT]: Script finished.\n' "$(get_timestamp "${__logger_dsf__}")" 1>&3
-        printf 'Log file created: %s\n' "${__logger_file__}"
+    if [ "${__logln_file_set__}" = "true" ]; then
+        printf '%s [EXIT]: Script finished.\n' "$(get_timestamp "${__logln_dsf__}")" 1>&3
+        printf 'Log file created: %s\n' "${__logln_file__}"
         exec 3>&-
     fi
     exit 0
@@ -50,8 +50,8 @@ exit_clean() {
 ##==---
 #==============================================================================
 if ! (return 0 2>/dev/null) ; then
-    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f logger >/dev/null 2>&1 ; then
-        logger() {
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f logln >/dev/null 2>&1 ; then
+        logln() {
             printf '%s %s\n' "${1}" "${2}"
         }
         get_timestamp() {

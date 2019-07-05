@@ -23,8 +23,8 @@ init() {
     #-- Expected globals ------------------------------------------------------
     __backup_dsf__="${__backup_dsf__:="+%Y%m%d-%H%M%S"}"
     __container_safe__="${__container_safe__:=false}"
-    __logger_file__="${__logger_file__:=unknown}"
-    __logger_file_set__=${__logger_file_set__:=false}
+    __logln_file__="${__logln_file__:=unknown}"
+    __logln_file_set__=${__logln_file_set__:=false}
     __require_root__="${__require_root__:=false}"
     #--------------------------------------------------------------------------
 ##--==
@@ -42,16 +42,16 @@ init() {
     fi
     #--------------------------------------------------------------------------
     #-- Set up log file
-    if [ "${__logger_file__}" != "nil" ]; then
-        mkdir -p "$(dirname "${__logger_file__}")"
-        if [ -f "${__logger_file__}" ] ; then
-            mv "${__logger_file__}" "${__logger_file__}"."$(get_timestamp "${__backup_dsf__}")"
+    if [ "${__logln_file__}" != "nil" ]; then
+        mkdir -p "$(dirname "${__logln_file__}")"
+        if [ -f "${__logln_file__}" ] ; then
+            mv "${__logln_file__}" "${__logln_file__}"."$(get_timestamp "${__backup_dsf__}")"
         fi
-        exec 3<> "${__logger_file__}" || exit 1
-        __logger_file_set__='true'
+        exec 3<> "${__logln_file__}" || exit 1
+        __logln_file_set__='true'
     else
         exec 3>&1 || exit 1
-        __logger_file_set__='false'
+        __logln_file_set__='false'
     fi
     _debug_info
     #--------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 #!./test/libs/bats/bin/bats
-# Author:     MyHR, Andy <andy.myhr@metlife.com>
+# Author:     awmyhr <awmyhr@gmail.com>
 # Contact:    awmyhr <awmyhr@gmail.com>
 # Project:    Shell Functions
 # Proj Home:  https://github.com/awmyhr/shell-functions

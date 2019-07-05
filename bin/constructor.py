@@ -64,7 +64,7 @@ if sys.version_info <= (2, 6):
 #==============================================================================
 #-- Variables which are meta for the script should be dunders (__varname__)
 #-- TODO: Update meta vars
-__version__ = '0.1.0-alpha' #: current version
+__version__ = '0.2.0' #: current version
 __revised__ = '20190626-122041' #: date of most recent revision
 __contact__ = 'awmyhr <awmyhr@gmail.com>' #: primary contact for support/?'s
 __synopsis__ = 'TODO: CHANGEME'
@@ -458,43 +458,6 @@ def RunLogger(debug=False):
 
 
 #==============================================================================
-def which(program):
-    '''Test if a program exists in $PATH.
-
-    Args:
-        program (str): Name of program to find.
-
-    Returns:
-        String to use for program execution.
-
-    Note:
-        Originally found this here:
-        http://stackoverflow.com/questions/377017/test-if-executable-exists-in-python
-    '''
-    logger.debug('Entering Function: %s', sys._getframe().f_code.co_name) #: pylint: disable=protected-access
-    logger.debug('Looking for command: %s', program)
-    def _is_exe(fpath):
-        ''' Private test for executeable '''
-        return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
-
-    fpath, _ = os.path.split(program)
-    if fpath:
-        if _is_exe(program):
-            logger.debug('Found %s here.', program)
-            return program
-    else:
-        for path in os.environ["PATH"].split(os.pathsep):
-            path = path.strip('"')
-            exe_file = os.path.join(path, program)
-            if _is_exe(exe_file):
-                logger.debug('Found %s here: %s', program, exe_file)
-                return exe_file
-
-    logger.debug('Could not find %s.', program)
-    return None
-
-
-#==============================================================================
 class RunOptions(object):
     ''' Parse the options and put them into an object
 
@@ -504,6 +467,10 @@ class RunOptions(object):
     '''
     _defaults = {
         'debug': False,
+        'mark_in': '##--==\n',
+        'mark_out': '##==---\n',
+        'src_dir': 'src',
+        'tst_dir': 'test'
     }
 
     _arguments = None
@@ -532,16 +499,50 @@ class RunOptions(object):
     @property
     def args(self):
         ''' Class property '''
-        if self._arguments is not None:
+        try:
             return self._arguments
-        return None
+        except AttributeError:
+            return None
 
     @property
     def debug(self):
         ''' Class property '''
-        if self._options is not None:
+        try:
             return self._options.debug
-        return self._defaults['debug']
+        except AttributeError:
+            return self._defaults['debug']
+
+    @property
+    def mark_in(self):
+        ''' Class property '''
+        try:
+            return self._options.mark_in
+        except AttributeError:
+            return self._defaults['mark_in']
+
+    @property
+    def mark_out(self):
+        ''' Class property '''
+        try:
+            return self._options.mark_out
+        except AttributeError:
+            return self._defaults['mark_out']
+
+    @property
+    def src_dir(self):
+        ''' Class property '''
+        try:
+            return self._options.src_dir
+        except AttributeError:
+            return self._defaults['src_dir']
+
+    @property
+    def tst_dir(self):
+        ''' Class property '''
+        try:
+            return self._options.tst_dir
+        except AttributeError:
+            return self._defaults['tst_dir']
 
     @property
     def ansible_called(self):
@@ -595,17 +596,21 @@ class RunOptions(object):
 
 
 #==============================================================================
-def main():
-    ''' This is where the action takes place
-        We expect options and logger to be global
+def process_file(filename=None, mark_in='', mark_out=''):
+    ''' Return date in specified format
+
+    Args:
+        filename (str): filename to work on.
+
+    Returns:
+        The formatted timestamp as a string.
+
     '''
-    logger.debug('Starting main()')
-    mark_in = '##--==\n'
-    mark_out = '##==---\n'
+    if 'logger' in globals():
+        logger.debug('Entering Function: %s', sys._getframe().f_code.co_name) #: pylint: disable=protected-access
     mark_state = False
 
-    # print('Processing file: %s' % options.args[0])
-    with open(options.args[0], 'rb') as _file:
+    with open(filename, 'rb') as _file:
         for line in _file:
             if line == mark_in:
                 mark_state = True
@@ -613,6 +618,25 @@ def main():
                 mark_state = False
             elif mark_state:
                 print(line.rstrip())
+
+
+#==============================================================================
+def main():
+    ''' This is where the action takes place
+        We expect options and logger to be global
+    '''
+    logger.debug('Starting main()')
+
+    if options.args[0].endswith('.parts'):
+        directory = os.path.dirname(options.args[0])
+        with open(options.args[0], 'rb') as _file:
+            for line in _file:
+                if line.startswith('#'):
+                    continue
+                line = line.rstrip()
+                process_file(os.path.join(directory, line), options.mark_in, options.mark_out)
+    else:
+        process_file(options.args[0], options.mark_in, options.mark_out)
 
 
 #==============================================================================

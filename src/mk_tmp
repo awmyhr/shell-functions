@@ -5,17 +5,17 @@
 # Proj Home:  https://github.com/awmyhr/shell-functions
 # Copyright:  2019 awmyhr
 # License:    Apache-2.0
-# Revised:    2019-06-28 # This revision is for the test-suite portion
+# Revised:    2019-07-05 # This revision is for the test-suite portion
 # Created:    2019-06-28
 ##--==
 #==============================================================================
-get_temp() {
+mk_tmp() {
     #:"""
-    #: .. function:: get_temp()
+    #: .. function:: mk_tmp()
     #:
     #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
     #:
-    #: .. revision:: 2019-06-28
+    #: .. revision:: 2019-07-05
     #:
     #: Creates a temporary file (or directory), returning the path. Defaults to file.
     #:
@@ -27,24 +27,24 @@ get_temp() {
     __cononical_name__="${__cononical_name__:=unknown}"
     #--------------------------------------------------------------------------
 ##--==
-    __get_temp_dir='' # {% raw %}
+    __mk_tmp_dir='' # {% raw %}
     if [ "${#}" -eq 1 ] ; then # {% endraw %}
         case 'directory' in
-            *${1}*) __get_temp_dir='-d' ;;
+            *${1}*) __mk_tmp_dir='-d' ;;
             *)      ;;
         esac ;
     fi
     if command -v mktemp >/dev/null 2>&1; then
-        mktemp ${__get_temp_dir} -t "${__cononical_name__}${__get_temp_dir}.XXXXXXXXXX" || return "${?}"
+        mktemp ${__mk_tmp_dir} -t "${__cononical_name__}${__mk_tmp_dir}.XXXXXXXXXX" || return "${?}"
     else
-        if [ "${__get_temp_dir}" = '' ]; then
-            __get_temp_path="/tmp/${__cononical_name__}.${$}"
-            touch "${__get_temp_path}" || return "${?}"
+        if [ "${__mk_tmp_dir}" = '' ]; then
+            __mk_tmp_path="/tmp/${__cononical_name__}.${$}"
+            touch "${__mk_tmp_path}" || return "${?}"
         else
-            __get_temp_path="/tmp/${__cononical_name__}-d.${$}"
-            mkdir "${__get_temp_path}" || return "${?}"
+            __mk_tmp_path="/tmp/${__cononical_name__}-d.${$}"
+            mkdir "${__mk_tmp_path}" || return "${?}"
         fi
-        printf '%s' "${__get_temp_path}"
+        printf '%s' "${__mk_tmp_path}"
     fi
 
     return
@@ -52,5 +52,5 @@ get_temp() {
 ##==---
 #==============================================================================
 if ! (return 0 2>/dev/null) ; then
-    get_temp "${@}"
+    mk_tmp "${@}"
 fi

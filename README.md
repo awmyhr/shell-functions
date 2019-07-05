@@ -17,8 +17,12 @@
 
 ## Usage
 
-```
-```
+Function naming scheme:
+ - \__name_ - Support functions not likely used in body of script.
+ - get\__name_ - Prints string suitable for assigning to variable.
+ - is\__name_ - Typically a true/false test.
+ - mk\__name_ - Creates something, typically a file or directory.
+ - set\__name_ - Sets one or more variables, typically in script environment.
 
 ## Maintainers
 

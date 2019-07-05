@@ -5,7 +5,7 @@
 # Proj Home:  https://github.com/awmyhr/shell-functions
 # Copyright:  2019 awmyhr
 # License:    Apache-2.0
-# Revised:    2019-06-28
+# Revised:    2019-07-05
 # Created:    2019-06-28
 #==============================================================================
 load 'libs/bats-support/load'
@@ -17,6 +17,6 @@ load 'libs/bats-file/load'
     assert_success
     assert_line '__backup_dsf__="+%Y%m%d-%H%M%S"'
     assert_line --partial 'common_vars'
-    assert_line '__logger_lvl__="20"'
+    assert_line '__logln_lvl__="20"'
     assert_line 'PATH=/sbin:/usr/sbin:/bin:/usr/bin'
 }

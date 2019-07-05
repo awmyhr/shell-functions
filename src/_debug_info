@@ -5,7 +5,7 @@
 # Proj Home:  https://github.com/awmyhr/shell-functions
 # Copyright:  2019 awmyhr
 # License:    Apache-2.0
-# Revised:    2019-06-28 # This revision is for the test-suite portion
+# Revised:    2019-07-05 # This revision is for the test-suite portion
 # Created:    2019-06-28
 ##--==
 #==============================================================================
@@ -15,7 +15,7 @@ _debug_info() {
     #:
     #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
     #:
-    #: .. revision:: 2019-06-28
+    #: .. revision:: 2019-07-05
     #:
     #: Provides meta info for debug-level output
     #:
@@ -40,33 +40,33 @@ _debug_info() {
     # shellcheck disable=SC1007
     script_path="$(CDPATH= cd -- "$(dirname -- "${0}")" && pwd )"
 
-    logger debug "Cononical: ${__cononical_name__}"
-    logger debug "Abs Path:  ${script_path}/${__basename__}"
-    logger debug "Args List: ${__original_args__}"
-    logger debug "Version:   ${__version__}"
-    logger debug "md5sum:    $(md5sum "${__basename__}" 2>&1)"
-    logger debug "Created:   ${__created__}"
-    logger debug "Revised:   ${__revised__}"
-    logger debug "Coder(s):  ${__author__}"
-    logger debug "Contact:   ${__contact__}"
-    logger debug "Project:   ${__project_name__}"
-    logger debug "Project Home: ${__project_home__}"
-    logger debug "Template Version: ${__template_version__}"
-    logger debug "System:    $(uname -orv 2>&1)"
-    logger debug "Hostname:  $(hostname 2>&1)"
-    logger debug "Logname:   ${USERNAME:=$(logname 2>&1)}"
-    logger debug "[re]uid:   $(id -ur 2>&1)/$(id -u 2>&1)"
-    logger debug "PID/PPID:  ${$}/${PPID}"
+    logln debug "Cononical: ${__cononical_name__}"
+    logln debug "Abs Path:  ${script_path}/${__basename__}"
+    logln debug "Args List: ${__original_args__}"
+    logln debug "Version:   ${__version__}"
+    logln debug "md5sum:    $(md5sum "${__basename__}" 2>&1)"
+    logln debug "Created:   ${__created__}"
+    logln debug "Revised:   ${__revised__}"
+    logln debug "Coder(s):  ${__author__}"
+    logln debug "Contact:   ${__contact__}"
+    logln debug "Project:   ${__project_name__}"
+    logln debug "Project Home: ${__project_home__}"
+    logln debug "Template Version: ${__template_version__}"
+    logln debug "System:    $(uname -orv 2>&1)"
+    logln debug "Hostname:  $(hostname 2>&1)"
+    logln debug "Logname:   ${USERNAME:=$(logname 2>&1)}"
+    logln debug "[re]uid:   $(id -ur 2>&1)/$(id -u 2>&1)"
+    logln debug "PID/PPID:  ${$}/${PPID}"
     if [ -x /bin/pstree ] || [ -x /usr/bin/pstree ] ; then
         if pstree -psu ${$} 1>/dev/null 2>&1 ; then
-            logger debug "pstree psu: $(pstree -psu ${$})"
+            logln debug "pstree psu: $(pstree -psu ${$})"
         else
-            logger debug "pstree pu: $(pstree -pu ${$})"
+            logln debug "pstree pu: $(pstree -pu ${$})"
         fi
     fi
-    logger debug '-----------------'
-    logger debug '----- start -----'
-    logger debug '-----------------'
+    logln debug '-----------------'
+    logln debug '----- start -----'
+    logln debug '-----------------'
 
     return
 }
@@ -78,8 +78,8 @@ if ! (return 0 2>/dev/null) ; then
             printf 'TestTestTest'
         }
     fi
-    if ! declare -f logger >/dev/null 2>&1 ; then
-        logger() {
+    if ! declare -f logln >/dev/null 2>&1 ; then
+        logln() {
             printf '%s %s\n' "${1}" "${2}"
         }
     fi

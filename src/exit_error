@@ -5,7 +5,7 @@
 # Proj Home:  https://github.com/awmyhr/shell-functions
 # Copyright:  2019 awmyhr
 # License:    Apache-2.0
-# Revised:    2019-06-28 # This revision is for the test-suite portion
+# Revised:    2019-07-05 # This revision is for the test-suite portion
 # Created:    2019-06-28
 ##--==
 #==============================================================================
@@ -46,7 +46,7 @@ exit_error() {
     #:
     #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
     #:
-    #: .. revision:: 2019-06-28
+    #: .. revision:: 2019-07-05
     #:
     #: Report error and exit
     #:
@@ -61,9 +61,9 @@ exit_error() {
     #-- Expected globals ------------------------------------------------------
     cf_red=${cf_red:=''} ; c_bold=${c_bold:=''}; c_reset=${c_reset:=''}
     __cononical_name__="${__cononical_name__:=unknown}"
-    __logger_dsf__="${__logger_dsf__:="+%Y%m%d"}"
-    __logger_file__="${__logger_file__:=unknown}"
-    __logger_file_set__=${__logger_file_set__:=false}
+    __logln_dsf__="${__logln_dsf__:="+%Y%m%d"}"
+    __logln_file__="${__logln_file__:=unknown}"
+    __logln_file_set__=${__logln_file_set__:=false}
     #--------------------------------------------------------------------------# {% raw %}
 ##--==
     if [ "${#}" -eq 2 ] ; then # {% endraw %}
@@ -77,9 +77,9 @@ exit_error() {
     trap - INT TERM HUP
     printf '%s: %s\n' "${cf_red}${__cononical_name__}" \
                       "${c_bold}${__exit_error_mess}${c_reset}" 1>&2
-    if [ "${__logger_file_set__}" = "true" ]; then
-        printf '%s [EXIT]: %s\n' "$(timestamp "${__logger_dsf__}")" "${__exit_error_mess}" 1>&3
-        printf 'Log file created: %s\n' "${__logger_file__}"
+    if [ "${__logln_file_set__}" = "true" ]; then
+        printf '%s [EXIT]: %s\n' "$(get_timestamp "${__logln_dsf__}")" "${__exit_error_mess}" 1>&3
+        printf 'Log file created: %s\n' "${__logln_file__}"
         exec 3>&-
     fi
     exit "${__exit_error_code}"
@@ -87,12 +87,12 @@ exit_error() {
 ##==---
 #==============================================================================
 if ! (return 0 2>/dev/null) ; then
-    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f logger >/dev/null 2>&1 ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f logln >/dev/null 2>&1 ; then
         cf_red='' ; c_bold='' ; c_reset=''
-        logger() {
+        logln() {
             printf '%s %s\n' "${1}" "${2}"
         }
-        timestamp() {
+        get_timestamp() {
             printf '%s' "${1}"
         }
         exec 3>&1 || exit 1

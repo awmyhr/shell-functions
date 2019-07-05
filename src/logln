@@ -5,66 +5,66 @@
 # Proj Home:  https://github.com/awmyhr/shell-functions
 # Copyright:  2019 awmyhr
 # License:    Apache-2.0
-# Revised:    2019-06-28 # This revision is for the test-suite portion
+# Revised:    2019-07-05 # This revision is for the test-suite portion
 # Created:    2019-06-28
 ##--==
 #==============================================================================
-logger() {
+logln() {
     #:"""
-    #: .. function:: logger()
+    #: .. function:: logln()
     #:
     #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
     #:
-    #: .. revision:: 2019-06-28
+    #: .. revision:: 2019-07-05
     #:
     #: Provides an interface similar to Python's logging module
     #:
     #: :param str log_level:     String indicating log level
     #: :param str log_string:    String to print
     #: .. note::
-    #:     This was inspired by tinylogger (Copyright (c) 2017 Nagarjuna
+    #:     This was inspired by tinylogln (Copyright (c) 2017 Nagarjuna
     #:     Kumarappan), but I think there is very little left of the original
-    #:     code here. See: https://github.com/nk412/tinylogger
+    #:     code here. See: https://github.com/nk412/tinylogln
     #:"""
 ##==---
     #-- Expected globals ------------------------------------------------------
     cf_blue=${cf_blue:=''}     ; cf_green=${cf_green:=''}     ; cf_white=${cf_white:=''}
     cf_yellow=${cf_yellow:=''} ; cf_magenta=${cf_magenta:=''} ; cf_red=${cf_red:=''}
     c_reset=${c_reset:=''}
-    __logger_dsf__="${__logger_dsf__:="+%Y%m%d"}"
-    __logger_file__="${__logger_file__:=unknown}"
-    __logger_file_set__=${__logger_file_set__:='false'}
-    __logger_lvl__="${__logger_lvl__:=20}"
+    __logln_dsf__="${__logln_dsf__:="+%Y%m%d"}"
+    __logln_file__="${__logln_file__:=unknown}"
+    __logln_file_set__=${__logln_file_set__:='false'}
+    __logln_lvl__="${__logln_lvl__:=20}"
     __script_debug__=${__script_debug__:='false'}
     #--------------------------------------------------------------------------
 ##--==
     case "$(printf '%s' "${1}")" in
-        debug)          __logger_action_tag='DEBUG'    ; __logger_log_level_th=10 ;;
-        info)           __logger_action_tag='INFO'     ; __logger_log_level_th=20 ;;
-        warn|warning)   __logger_action_tag='WARNING'  ; __logger_log_level_th=30 ;;
-        error)          __logger_action_tag='ERROR'    ; __logger_log_level_th=40 ;;
-        crit|critical)  __logger_action_tag='CRITICAL' ; __logger_log_level_th=50 ;;
-        *)              __logger_action_tag='UNKNOWN'  ; __logger_log_level_th=0 ;;
+        debug)          __logln_action_tag='DEBUG'    ; __logln_log_level_th=10 ;;
+        info)           __logln_action_tag='INFO'     ; __logln_log_level_th=20 ;;
+        warn|warning)   __logln_action_tag='WARNING'  ; __logln_log_level_th=30 ;;
+        error)          __logln_action_tag='ERROR'    ; __logln_log_level_th=40 ;;
+        crit|critical)  __logln_action_tag='CRITICAL' ; __logln_log_level_th=50 ;;
+        *)              __logln_action_tag='UNKNOWN'  ; __logln_log_level_th=0 ;;
     esac
     shift
 
-    if [ "${__logger_file_set__}" = "true" ]; then
-        printf '%s [%s]: %s\n' "$(timestamp "${__logger_dsf__}")" \
-                               "${__logger_action_tag}" "${@}" 1>&3
+    if [ "${__logln_file_set__}" = "true" ]; then
+        printf '%s [%s]: %s\n' "$(get_timestamp "${__logln_dsf__}")" \
+                               "${__logln_action_tag}" "${@}" 1>&3
     fi
 
-    if [ "${__logger_lvl__}" -le "${__logger_log_level_th}" ]; then
+    if [ "${__logln_lvl__}" -le "${__logln_log_level_th}" ]; then
         if [ "${__script_debug__}" = true ]; then
-            printf '%s %-10s ' "${cf_blue}$(timestamp "${__logger_dsf__}")" \
-                               "${__logger_action_tag}${c_reset}"
+            printf '%s %-10s ' "${cf_blue}$(get_timestamp "${__logln_dsf__}")" \
+                               "${__logln_action_tag}${c_reset}"
         fi
-        if [ "${__logger_log_level_th}" -le 10 ]; then
+        if [ "${__logln_log_level_th}" -le 10 ]; then
             printf '%sdebug: %s%s\n' "${cf_green}" "${@}" "${c_reset}"
-        elif [ "${__logger_log_level_th}" -le 20 ]; then
+        elif [ "${__logln_log_level_th}" -le 20 ]; then
             printf '%s%s%s\n' "${cf_white}" "${@}" "${c_reset}"
-        elif [ "${__logger_log_level_th}" -le 30 ]; then
+        elif [ "${__logln_log_level_th}" -le 30 ]; then
             printf '%sWarning: %s%s\n' "${cf_yellow}" "${@}" "${c_reset}" 1>&2
-        elif [ "${__logger_log_level_th}" -le 40 ]; then
+        elif [ "${__logln_log_level_th}" -le 40 ]; then
             printf '%sError: %s%s\n' "${cf_magenta}" "${@}" "${c_reset}" 1>&2
         else
             printf '%sCRITICAL: %s%s\n' "${cf_red}" "${@}" "${c_reset}" 1>&2
@@ -80,11 +80,11 @@ if ! (return 0 2>/dev/null) ; then
         cf_blue=''    ; cf_green=''   ; cf_white=''
         cf_yellow=''  ; cf_magenta='' ; cf_red=''
         c_reset=''
-        timestamp() {
+        get_timestamp() {
             printf '%s' "${1}"
         }
         exec 3>&1 || exit 1
     fi
 
-    logger "${@}"
+    logln "${@}"
 fi

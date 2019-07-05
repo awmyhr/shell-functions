@@ -5,7 +5,7 @@
 # Proj Home:  https://github.com/awmyhr/shell-functions
 # Copyright:  2019 awmyhr
 # License:    Apache-2.0
-# Revised:    2019-06-28
+# Revised:    2019-07-05
 # Created:    2019-06-28
 #==============================================================================
 load 'libs/bats-support/load'
@@ -16,12 +16,12 @@ load 'libs/bats-file/load'
     RUN_UNIT_TEST='true' run src/sections/options
     assert_success
     assert_line '__script_debug__="false"'
-    assert_line '__logger_lvl__="20"'
+    assert_line '__logln_lvl__="20"'
 
     RUN_UNIT_TEST='true' run src/sections/options --debug
     assert_success
     assert_line '__script_debug__="true"'
-    assert_line '__logger_lvl__="10"'
+    assert_line '__logln_lvl__="10"'
 
     RUN_UNIT_TEST='true' run src/sections/options -h
     assert_success

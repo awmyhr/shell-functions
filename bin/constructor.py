@@ -23,7 +23,7 @@
     :copyright: 2019 awmyhr
     :license: Apache-2.0
 
-    .. codeauthor:: MyHR, Andy <andy.myhr@metlife.com>
+    .. codeauthor:: awmyhr <awmyhr@gmail.com>
 '''
 #===============================================================================
 #-- Standard Imports
@@ -72,7 +72,7 @@ __description__ = '''TODO: CHANGEME
 '''
 #------------------------------------------------------------------------------
 #-- The following few variables should be relatively static over life of script
-__author__ = ['MyHR, Andy <andy.myhr@metlife.com>'] #: coder(s) of script
+__author__ = ['awmyhr <awmyhr@gmail.com>'] #: coder(s) of script
 __created__ = '2019-06-28'               #: date script originlly created
 __copyright__ = '2019 awmyhr' #: Copyright short name
 __license__ = 'Apache-2.0'

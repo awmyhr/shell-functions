@@ -8,7 +8,7 @@
   project_name: 'Shell Functions',
   project_slug: 'shell-functions',
   project_abbr: 'shfunc',
-  project_version: '20190628',
+  project_version: '20190705',
   software_copyright: '2019 awmyhr',
   software_license: 'Apache-2.0'
 }

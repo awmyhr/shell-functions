@@ -15,6 +15,32 @@
 ```
 ```
 
+### Install bats for testing
+
+Execute these:
+
+    BATS_INSTALL="${HOME}/.local/share/bats"
+    mkdir -p "${BATS_INSTALL}"
+    cd "${BATS_INSTALL}"
+    git clone --recurse-submodules https://github.com/sstephenson/bats      core
+    git clone --recurse-submodules https://github.com/ztombol/bats-support  support
+    git clone --recurse-submodules https://github.com/ztombol/bats-assert   assert
+    git clone --recurse-submodules https://github.com/ztombol/bats-file     file
+    cd core
+    ./install.sh "${HOME}/.local"
+
+Add to shell init scripts:
+
+    BATS_INSTALL="${HOME}/.local/share/bats"
+    PATH=$PATH:${HOME}/.local/bin:${HOME}/.local/libexec
+    export PATH BATS_INSTALL
+
+Use in _testname_.bats files:
+
+    load "${BATS_INSTALL}/support/load.bash"
+    load "${BATS_INSTALL}/assert/load.bash"
+    load "${BATS_INSTALL}/file/load.bash"
+
 ## Usage
 
 Function naming scheme:

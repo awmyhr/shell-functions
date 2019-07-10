@@ -53,6 +53,13 @@ Function naming scheme:
 Files which are not (just) functions are in CamelCase. These set global variables
 and/or execute code which may or may not have side-effects.
 
+Most functions are designed to be used as-is, however these are specifically
+designed to be over-ridden:
+
+    parse_options
+    PreambleFull
+    Main
+
 ## Maintainers
 
 - awmyhr <awmyhr@gmail.com>

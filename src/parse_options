@@ -5,7 +5,7 @@
 # Proj Home:  https://github.com/awmyhr/shell-functions
 # Copyright:  2019 awmyhr
 # License:    Apache-2.0
-# Revised:    2019-07-05 # This revision is for the test-suite portion
+# Revised:    2019-07-10 # This revision is for the test-suite portion
 # Created:    2019-06-28
 ##--==
 #==============================================================================
@@ -80,29 +80,29 @@ parse_options() {
 ##==---
 #==============================================================================
 if ! (return 0 2>/dev/null) ; then
-    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f _usage >/dev/null 2>&1 ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! [ "$(type -t _usage 2>/dev/null)" = 'function' ] ; then
         _usage() {
             printf 'Would call _usage() here.\n'
             usage_options '%s (%s)\n'
         }
     fi
-    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f _usage_ec >/dev/null 2>&1 ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! [ "$(type -t _usage_ec 2>/dev/null)" = 'function' ] ; then
         _usage_ec() {
             printf 'Would call _usage_ec() here.\n'
         }
         :
     fi
-    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f _usage_rest >/dev/null 2>&1 ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! [ "$(type -t _usage_rest 2>/dev/null)" = 'function' ] ; then
         _usage_rest() {
             printf 'Would call _usage_rest() here.\n'
         }
     fi
-    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f _version >/dev/null 2>&1 ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! [ "$(type -t _version 2>/dev/null)" = 'function' ] ; then
         _version() {
             printf 'Would call _version() here.\n'
         }
     fi
-    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f exit_error >/dev/null 2>&1 ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! [ "$(type -t exit_error 2>/dev/null)" = 'function' ] ; then
         exit_error() {
             printf 'exit_error: (%s) %s\n' "${1}" "${2}"
             exit "${1}"

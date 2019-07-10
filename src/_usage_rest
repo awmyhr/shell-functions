@@ -5,7 +5,7 @@
 # Proj Home:  https://github.com/awmyhr/shell-functions
 # Copyright:  2019 awmyhr
 # License:    Apache-2.0
-# Revised:    2019-06-28 # This revision is for the test-suite portion
+# Revised:    2019-07-10 # This revision is for the test-suite portion
 # Created:    2019-06-28
 ##--==
 #==============================================================================
@@ -61,7 +61,7 @@ _usage_rest() {
 ##==---
 #==============================================================================
 if ! (return 0 2>/dev/null) ; then
-    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f usage_options >/dev/null 2>&1 ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! [ "$(type -t usage_options 2>/dev/null)" = 'function' ] ; then
         usage_options() {
             printf 'Would call usage_options with: %s\n' "${1}"
     }

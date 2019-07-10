@@ -5,7 +5,7 @@
 # Proj Home:  https://github.com/awmyhr/shell-functions
 # Copyright:  2019 awmyhr
 # License:    Apache-2.0
-# Revised:    2019-07-05 # This revision is for the test-suite portion
+# Revised:    2019-07-10 # This revision is for the test-suite portion
 # Created:    2019-06-28
 ##--==
 #==============================================================================
@@ -24,17 +24,17 @@ main() {
 ##==---
 #==============================================================================
 if ! (return 0 2>/dev/null) ; then
-    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! [ "$(type -t init)" = function ] ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! [ "$(type -t init 2>/dev/null)" = 'function' ] ; then
         init() {
             printf 'Would call init() here.\n'
         }
     fi
-    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! [ "$(type -t logln)" = function ] ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! [ "$(type -t logln 2>/dev/null)" = 'function' ] ; then
         logln() {
             printf '%s - %s\n' "${1}" "${2}"
         }
     fi
-    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! [ "$(type -t exit_clean)" = function ] ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! [ "$(type -t exit_clean 2>/dev/null)" = 'function' ] ; then
         exit_clean() {
             printf 'Would call exit_clean() here.\n'
             exit 0
@@ -43,7 +43,7 @@ if ! (return 0 2>/dev/null) ; then
 fi
 ##--==
 #==============================================================================
-if [ "$(type -t parse_options)" = function ] ; then
+if [ "$(type -t parse_options 2>/dev/null)" = 'function' ] ; then
     parse_options "${@}"
 fi
 init

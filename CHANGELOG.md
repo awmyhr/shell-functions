@@ -14,6 +14,17 @@ however the project itself uses date versioning.
 
 ---
 
+## [20190710]
+### Changed
+- Nearly every file tweaked, in particular to support using bats from environment,
+and better POSIX compliance.
+- options are now processed via parse_options() function in the newly moved/renamed
+parse_options file.
+- body of a script is now in the main() function.
+- layout/naming tweaked. this should be the last of that for now...
+
+---
+
 ## [20190705]
 ### Changed
 - Many function names have been changed to establish a meaningful schema.

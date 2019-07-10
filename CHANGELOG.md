@@ -15,6 +15,9 @@ however the project itself uses date versioning.
 ---
 
 ## [20190710]
+### Added
+- Simple script to run bats tests and assemble script
+
 ### Changed
 - Nearly every file tweaked, in particular to support using bats from environment,
 and better POSIX compliance.

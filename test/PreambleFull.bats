@@ -12,7 +12,7 @@ load "${BATS_INSTALL}/support/load.bash"
 load "${BATS_INSTALL}/assert/load.bash"
 load "${BATS_INSTALL}/file/load.bash"
 
-@test 'Section: preamble (uniqe settings - override this)' {
+@test 'Section: Preamble[Full] (uniqe settings - override this)' {
     RUN_UNIT_TEST='true' run src/PreambleFull
     assert_success
     assert_line '__container_safe__="false"'

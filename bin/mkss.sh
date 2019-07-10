@@ -18,13 +18,14 @@
 #-- Variables which are meta for the script should be dunders (__varname__)
 #-- TODO: UPDATE meta vars
 __version__='1.0.0' #: current version
-__revised__='20190710-152421' #: date of most recent revision
+__revised__='20190710-154606' #: date of most recent revision
 __contact__='awmyhr <awmyhr@gmail.com>' #: primary contact for support/?'s
 __synopsis__='Run bats tests then construct script.'
 __description__="
-Given a project name, will look for a .parts file in src/. If found, will
-then attempt to run bats tests in test/<projectname>. If successful, will
-then use constructor to put the parts together into a single script.
+Given a project NAME, will look for a parts file (src/<NAME>.parts).
+If found, will then attempt to run bats tests in test/<NAME>.
+If successful (or there are no tests to run), will then use constructor
+to put the parts together into a single script (<NAME>.sh).
 "
 #------------------------------------------------------------------------------
 #-- Flags

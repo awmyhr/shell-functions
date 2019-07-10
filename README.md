@@ -50,6 +50,9 @@ Function naming scheme:
  - mk\__name_ - Creates something, typically a file or directory.
  - set\__name_ - Sets one or more variables, typically in script environment.
 
+Files which are not (just) functions are in CamelCase. These set global variables
+and/or execute code which may or may not have side-effects.
+
 ## Maintainers
 
 - awmyhr <awmyhr@gmail.com>

@@ -12,7 +12,7 @@ load "${BATS_INSTALL}/support/load.bash"
 load "${BATS_INSTALL}/assert/load.bash"
 load "${BATS_INSTALL}/file/load.bash"
 
-@test 'Section: options (option processing and help - override this)' {
+@test 'parse_options (option processing and help - override this)' {
     RUN_UNIT_TEST='true' run src/parse_options
     assert_success
     assert_line '__script_debug__="false"'

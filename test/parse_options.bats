@@ -5,43 +5,43 @@
 # Proj Home:  https://github.com/awmyhr/shell-functions
 # Copyright:  2019 awmyhr
 # License:    Apache-2.0
-# Revised:    2019-07-05
+# Revised:    2019-07-10
 # Created:    2019-06-28
 #==============================================================================
-load 'libs/bats-support/load'
-load 'libs/bats-assert/load'
-load 'libs/bats-file/load'
+load "${BATS_INSTALL}/support/load.bash"
+load "${BATS_INSTALL}/assert/load.bash"
+load "${BATS_INSTALL}/file/load.bash"
 
-@test 'Section: options (option processing and help - override this)' {
-    RUN_UNIT_TEST='true' run src/sections/options
+@test 'parse_options (option processing and help - override this)' {
+    RUN_UNIT_TEST='true' run src/parse_options
     assert_success
     assert_line '__script_debug__="false"'
     assert_line '__logln_lvl__="20"'
 
-    RUN_UNIT_TEST='true' run src/sections/options --debug
+    RUN_UNIT_TEST='true' run src/parse_options --debug
     assert_success
     assert_line '__script_debug__="true"'
     assert_line '__logln_lvl__="10"'
 
-    RUN_UNIT_TEST='true' run src/sections/options -h
+    RUN_UNIT_TEST='true' run src/parse_options -h
     assert_success
     assert_line 'Would call _usage() here.'
     assert_line '--help, -h (Dislay this help)'
     assert_line '--version  (Display version)'
 
-    RUN_UNIT_TEST='true' run src/sections/options --help-rest
+    RUN_UNIT_TEST='true' run src/parse_options --help-rest
     assert_success
     assert_line 'Would call _usage_rest() here.'
 
-    RUN_UNIT_TEST='true' run src/sections/options --help-ec
+    RUN_UNIT_TEST='true' run src/parse_options --help-ec
     assert_success
     assert_line 'Would call _usage_ec() here.'
 
-    RUN_UNIT_TEST='true' run src/sections/options --version
+    RUN_UNIT_TEST='true' run src/parse_options --version
     assert_success
     assert_line 'Would call _version() here.'
 
-    RUN_UNIT_TEST='true' run src/sections/options --nope
+    RUN_UNIT_TEST='true' run src/parse_options --nope
     assert_failure 64
     assert_output 'exit_error: (64) Invalid option: --nope'
 }

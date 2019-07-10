@@ -5,7 +5,7 @@
 # Proj Home:  https://github.com/awmyhr/shell-functions
 # Copyright:  2019 awmyhr
 # License:    Apache-2.0
-# Revised:    2019-07-05 # This revision is for the test-suite portion
+# Revised:    2019-07-10 # This revision is for the test-suite portion
 # Created:    2019-06-28
 ##--==
 #==============================================================================
@@ -15,8 +15,7 @@ usage_options() {
     #:
     #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
     #:
-    #: .. revision:: 2019-07-05
-    #:"""
+    #: .. revision:: 2019-07-10
     #:
     #: :param str option_strfmt: The format to use.
     #:"""
@@ -38,68 +37,78 @@ usage_options() {
 
     return
 }
+#==============================================================================
+parse_options() {
 ##==---
-process_options() {
     #-- Expected globals ------------------------------------------------------
     __script_debug__="${__script_debug__:=false}"
     __logln_lvl__="${__logln_lvl__:=20}"
     #--------------------------------------------------------------------------
 ##--==
-#==============================================================================
-#-- Process options
-#   NOTE: this is not optimal, but is an attempt to keep things POSIX
-#         compliant. If you are expecting arguments instead of params,
-#         be sure to assign them... somehow...
-#   Be sure to update usage_options() as well
-# {% raw %}
-while [ "${#}" -gt 0 ]; do  # {% endraw %}
-    case "${1}" in
-        --debug)     __script_debug__='true'
-                     __logln_lvl__=10 ;;
-        -h|--help)   _usage      && exit 0 ;;
-        --help-ec)   _usage_ec   && exit 0 ;;
-        --help-rest) _usage_rest && exit 0 ;;
-        --version)   _version    && exit 0 ;;
-        # --)          shift && break ;;
-        # -?*)         exit_error 64 "Invalid option: ${1}" ;;
-        *)           exit_error 64 "Invalid option: ${1}" ;;
-    esac
-
-    shift
-done
-##==---
+    #:"""
+    #: .. function:: parse_options()
+    #:
+    #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
+    #:
+    #: .. revision:: 2019-07-10
+    #:
+    #: :param: This function should be passed the scripts $@.
+    #:
+    #: NOTE: this is not optimal, but is an attempt to keep things POSIX
+    #:       compliant. If you are expecting arguments instead of params,
+    #:       be sure to assign them... somehow...
+    #: Be sure to update usage_options() as well
+    #:"""
+    # {% raw %}
+    while [ "${#}" -gt 0 ]; do  # {% endraw %}
+        case "${1}" in
+            --debug)     __script_debug__='true'
+                         __logln_lvl__=10
+                         shift ;;
+            -h|--help)   _usage      && exit 0 ;;
+            --help-ec)   _usage_ec   && exit 0 ;;
+            --help-rest) _usage_rest && exit 0 ;;
+            --version)   _version    && exit 0 ;;
+            # -e|--exam)   EXAMPLE="${2}" && shift 2 ;;
+            # -f|--flage)  FLAG="true" && shift ;;
+            # --)          shift && break ;;
+            # -?*)         exit_error 64 "Invalid option: ${1}" ;;
+            *)           exit_error 64 "Invalid option: ${1}" ;;
+        esac
+    done
 }
+##==---
 #==============================================================================
 if ! (return 0 2>/dev/null) ; then
-    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f _usage >/dev/null 2>&1 ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! [ "$(type -t _usage 2>/dev/null)" = 'function' ] ; then
         _usage() {
             printf 'Would call _usage() here.\n'
-            usage_options
+            usage_options '%s (%s)\n'
         }
     fi
-    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f _usage_ec >/dev/null 2>&1 ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! [ "$(type -t _usage_ec 2>/dev/null)" = 'function' ] ; then
         _usage_ec() {
             printf 'Would call _usage_ec() here.\n'
         }
         :
     fi
-    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f _usage_rest >/dev/null 2>&1 ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! [ "$(type -t _usage_rest 2>/dev/null)" = 'function' ] ; then
         _usage_rest() {
             printf 'Would call _usage_rest() here.\n'
         }
     fi
-    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f _version >/dev/null 2>&1 ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! [ "$(type -t _version 2>/dev/null)" = 'function' ] ; then
         _version() {
             printf 'Would call _version() here.\n'
         }
     fi
-    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f exit_error >/dev/null 2>&1 ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! [ "$(type -t exit_error 2>/dev/null)" = 'function' ] ; then
         exit_error() {
             printf 'exit_error: (%s) %s\n' "${1}" "${2}"
             exit "${1}"
         }
     fi
-    process_options "${@}"
+    parse_options "${@}"
     printf '__script_debug__="%s"\n' "${__script_debug__}"
     printf '__logln_lvl__="%s"\n'   "${__logln_lvl__}"
 fi

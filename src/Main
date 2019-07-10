@@ -1,0 +1,52 @@
+#!/bin/sh
+# Author:     awmyhr <awmyhr@gmail.com>
+# Contact:    awmyhr <awmyhr@gmail.com>
+# Project:    Shell Functions
+# Proj Home:  https://github.com/awmyhr/shell-functions
+# Copyright:  2019 awmyhr
+# License:    Apache-2.0
+# Revised:    2019-07-10 # This revision is for the test-suite portion
+# Created:    2019-06-28
+##--==
+#==============================================================================
+#: .. section:: Body -- This is where The Magic(TM) happens
+#: .. revision:: 2019-07-10
+main() {
+    #-- TODO: Do something more interesting here...{#
+    logln debug "this is a debug"
+    logln info  "this is an info"
+    logln warn  "this is a warning"
+    logln error "this is an error"
+    logln crit  "this is critical"
+    #}
+
+}
+##==---
+#==============================================================================
+if ! (return 0 2>/dev/null) ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! [ "$(type -t init 2>/dev/null)" = 'function' ] ; then
+        init() {
+            printf 'Would call init() here.\n'
+        }
+    fi
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! [ "$(type -t logln 2>/dev/null)" = 'function' ] ; then
+        logln() {
+            printf '%s - %s\n' "${1}" "${2}"
+        }
+    fi
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! [ "$(type -t exit_clean 2>/dev/null)" = 'function' ] ; then
+        exit_clean() {
+            printf 'Would call exit_clean() here.\n'
+            exit 0
+        }
+    fi
+fi
+##--==
+#==============================================================================
+if [ "$(type -t parse_options 2>/dev/null)" = 'function' ] ; then
+    parse_options "${@}"
+fi
+init
+main
+exit_clean
+##==---

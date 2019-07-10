@@ -5,7 +5,7 @@
 # Proj Home:  https://github.com/awmyhr/shell-functions
 # Copyright:  2019 awmyhr
 # License:    Apache-2.0
-# Revised:    2019-07-05 # This revision is for the test-suite portion
+# Revised:    2019-07-10 # This revision is for the test-suite portion
 # Created:    2019-06-28
 ##--==
 #==============================================================================
@@ -78,7 +78,7 @@ if ! (return 0 2>/dev/null) ; then
             printf 'TestTestTest'
         }
     fi
-    if ! declare -f logln >/dev/null 2>&1 ; then
+    if ! [ "$(type -t logln 2>/dev/null)" = 'function' ] ; then
         logln() {
             printf '%s %s\n' "${1}" "${2}"
         }

@@ -5,7 +5,7 @@
 # Proj Home:  https://github.com/awmyhr/shell-functions
 # Copyright:  2019 awmyhr
 # License:    Apache-2.0
-# Revised:    2019-07-05 # This revision is for the test-suite portion
+# Revised:    2019-07-10 # This revision is for the test-suite portion
 # Created:    2019-06-28
 ##--==
 #==============================================================================
@@ -60,7 +60,7 @@ init() {
 ##==---
 #==============================================================================
 if ! (return 0 2>/dev/null) ; then
-    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f is_true >/dev/null 2>&1 ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! [ "$(type -t is_true 2>/dev/null)" = 'function' ] ; then
         is_true() {
             if [ "${1}" = 'true' ] ; then
                 return 0
@@ -69,7 +69,7 @@ if ! (return 0 2>/dev/null) ; then
             fi
         }
     fi
-    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f is_false >/dev/null 2>&1 ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! [ "$(type -t is_false 2>/dev/null)" = 'function' ] ; then
         is_false() {
             if [ "${1}" = 'false' ] ; then
                 return 0
@@ -78,12 +78,12 @@ if ! (return 0 2>/dev/null) ; then
             fi
         }
     fi
-    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f _debug_info >/dev/null 2>&1 ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! [ "$(type -t _debug_info 2>/dev/null)" = 'function' ] ; then
         _debug_info() {
             printf 'Would call _debug_info() here.\n'
         }
     fi
-    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! declare -f get_timestamp >/dev/null 2>&1 ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! [ "$(type -t get_timestamp 2>/dev/null)" = 'function' ] ; then
         get_timestamp() {
             printf '%s' "${1}"
         }

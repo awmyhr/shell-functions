@@ -1,0 +1,42 @@
+#!/bin/sh
+# Author:     awmyhr <awmyhr@gmail.com>
+# Contact:    awmyhr <awmyhr@gmail.com>
+# Project:    Shell Functions
+# Proj Home:  https://github.com/awmyhr/shell-functions
+# Copyright:  2019 awmyhr
+# License:    Apache-2.0
+# Revised:    2019-07-11 # This revision is for the test-suite portion
+# Created:    2019-07-11
+##--==
+#==============================================================================
+get_hardware() {
+     #:"""
+    #: .. function:: get_hardware()
+    #:
+    #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
+    #:
+    #: .. revision:: 2019-07-11
+    #:
+    #: Identify underlining 'hardware' and string.
+    #:
+    #:"""
+    __get_hardware='unknown'
+
+    if [ -f '/sys/devices/virtual/dmi/id/product_name' ] ; then
+        __get_hardware="$(head -1 /sys/devices/virtual/dmi/id/product_name | tr -d '\n')"
+    fi
+
+    printf '%s' "${__get_hardware}"
+    return
+}
+##==---
+#==============================================================================
+if ! (return 0 2>/dev/null) ; then
+    if [ "${RUN_UNIT_TEST}" = 'true' ] ; then
+        head() {
+            printf '%s' "${MOCK_CAT}"
+        }
+        MOCK_CAT="${1}"
+    fi
+    get_hardware "${@}"
+fi

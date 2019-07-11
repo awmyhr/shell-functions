@@ -25,11 +25,22 @@ get_platform_tag() {
     if [ -f '/sys/devices/virtual/dmi/id/sys_vendor' ] ; then
         __get_platform_tag_sys_vendor="$(cat /sys/devices/virtual/dmi/id/sys_vendor)"
         case "${__get_platform_tag_sys_vendor}" in
-            'Microsoft Corporation') __get_platform_tag='azure' ;;
+            'Microsoft Corporation') __get_platform_tag='hyperv' ;;
             'VMware, Inc.')          __get_platform_tag='vmware' ;;
-            'innotek GmbH')          __get_platform_tag='vbox' ;;
-            *)                       __get_platform_tag='other' ;;
+            'innotek GmbH')          __get_platform_tag='vbox'   ;;
+            'HP'|'HPE')              __get_platform_tag='hp'     ;;
+            'Cisco Systems Inc')     __get_platform_tag='cisco'  ;;
+            *)                       __get_platform_tag='other'  ;;
         esac
+        if [ "${__get_platform_tag}" = 'hyperv' ] ; then
+            if grep -q unknown-245 /var/lib/dhclient/dhclient-*.lease 2>/dev/null ; then
+                if [ -f /etc/yum.repos.d/rh-cloud.repo ] ; then
+                    __get_platform_tag='azure-marketplace'
+                else
+                    __get_platform_tag='azure'
+                fi
+            fi
+        fi
     fi
 
     printf '%s' "${__get_platform_tag}"

@@ -21,7 +21,7 @@ load "${BATS_INSTALL}/file/load.bash"
     assert_output "${OUTPUT}"
 
     OUTPUT='unknown'
-    [ -f '/sys/devices/virtual/dmi/id/sys_vendor' ] && OUTPUT='azure'
+    [ -f '/sys/devices/virtual/dmi/id/sys_vendor' ] && OUTPUT='hyperv'
     RUN_UNIT_TEST='true' run src/get_platform_tag 'Microsoft Corporation'
     assert_success
     assert_output "${OUTPUT}"

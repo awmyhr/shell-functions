@@ -38,7 +38,7 @@
 #:"""
 #==============================================================================
 #: .. section:: Preamble (script-specific vars -- override this)
-#: .. revision:: 2019-07-10
+#: .. revision:: 2019-07-11
 #------------------------------------------------------------------------------
 #-- Variables which are meta for the script should be dunders (__varname__)
 #-- TODO: UPDATE meta vars
@@ -50,12 +50,14 @@ __description__="
 {{ script_description|default('TODO: CHANGEME - description for --help', true) }}
 "
 #------------------------------------------------------------------------------
-#-- TODO: If you want to hard-set some variables, do it here. For example:
+#-- TODO: If you want to enforce/over-ride env variables, do it here. For example:
 # BACKUP_DSF:="+%Y%m%d-%H%M%S"
 # DEFAULT_TIMESTAMP="+%Y%m%d-%H%M%S"
-# LOGGER_DSF="+%Y%m%d-%H%M%S"
+# FILE_DSF="+%Y%m%d-%H%M%S"
+# LOGGER_DSF="+%Y-%m-%dT%T,%N%z"
 # LOGGER_FILE="${HOME}/var/log/{{ script_name|default("script_logger", true) }}.$(date +%Y%m%d-%H%M%S).log"
-# LOGGER_LVL:="info"
+# LOGGER_LVL='info'
+# LOGGER_FMT='default'
 #------------------------------------------------------------------------------
 #-- Flags
 __require_root__='false'    #: Does script require root

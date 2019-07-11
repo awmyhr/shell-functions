@@ -5,31 +5,45 @@
 # Proj Home:  https://github.com/awmyhr/shell-functions
 # Copyright:  2019 awmyhr
 # License:    Apache-2.0
-# Revised:    2019-07-05 # This revision is for the test-suite portion
+# Revised:    2019-07-11 # This revision is for the test-suite portion
 # Created:    2019-06-28
 ##--==
 #==============================================================================
 #: .. section:: General variables & settings
-#: .. revision:: 2019-07-05
+#: .. revision:: 2019-07-11
 #------------------------------------------------------------------------------
 __basename__="${0}"                                    #: name script run as
 #-- We are not using this variable for now.
 # shellcheck disable=2034
 __docformat__='reStructuredText en'                    #: attempted style for documentation
 __original_args__="${*}"    #: capture original arg list before messing with it
+MARK='INIT'
+TASK='00'
+TASK_SUB='0'
+TASK_STEP='0'
 #------------------------------------------------------------------------------
 #-- Load in environment variables, or set defaults
 __default_dsf__=${DEFAULT_TIMESTAMP:="+%Y%m%d-%H%M%S"} #: Default format for 'date' command
-__logln_dsf__=${LOGGER_DSF:="+%Y%m%d-%H%M%S"}         #: Debug logging output format for 'date' command
 __backup_dsf__=${BACKUP_DSF:="+%Y%m%d-%H%M%S"}         #: Backup file format for 'date' command
-__logln_file__=${LOGGER_FILE:="nil"}                  #: Path & name of log file to use
+__file_dsf__=${BACKUP_DSF:="+%Y%m%d-%H%M%S"}           #: General file format for 'date' command
+__logln_dsf__=${LOGGER_DSF:="+%Y-%m-%dT%T,%N%z"}       #: Debug logging output format for 'date' command (ISO-8601)
+__logln_file__="${LOGGER_FILE:=nil}"                   #: Path & name of log file to use
+__logln_file_fmt__="${LOGGER_FMT:=default}"            #: Format of log file
+__logln_facility__="${LOGGER_FAC:=20}"                 #: Default logger facility (20 = local use 4)
 case "$(printf '%s' "${LOGGER_LVL:="info"}" | tr '[:upper:]' '[:lower:]')" in
     debug)          __logln_lvl__=10 ;;
+    step)           __logln_lvl__=16 ;;
+    subt)           __logln_lvl__=18 ;;
     info)           __logln_lvl__=20 ;;
-    warn|warning)   __logln_lvl__=30 ;;
-    error)          __logln_lvl__=40 ;;
-    crit|critical)  __logln_lvl__=50 ;;
-    *)              __logln_lvl__=0 ;;
+    task)           __logln_lvl__=24 ;;
+    note|notice)    __logln_lvl__=30 ;;
+    mark)           __logln_lvl__=35 ;;
+    warn|warning)   __logln_lvl__=40 ;;
+    error)          __logln_lvl__=50 ;;
+    mark_err)       __logln_lvl__=55 ;;
+    crit|critical)  __logln_lvl__=60 ;;
+    alert)          __logln_lvl__=70 ;;
+    *)              __logln_lvl__=0  ;;
 esac
 #------------------------------------------------------------------------------
 #-- Load colors from environment variables, or set to empty
@@ -81,15 +95,19 @@ fi
 #==============================================================================
 if ! (return 0 2>/dev/null) ; then
     if [ "${RUN_UNIT_TEST}" = 'true' ] ; then
-        printf '__backup_dsf__="%s"\n'    "${__backup_dsf__}"
-        printf '__basename__="%s"\n'      "${__basename__}"
-        printf '__default_dsf__="%s"\n'   "${__default_dsf__}"
-        printf '__logln_dsf__="%s"\n'    "${__logln_dsf__}"
-        printf '__logln_file__="%s"\n'   "${__logln_file__}"
-        printf '__logln_lvl__="%s"\n'    "${__logln_lvl__}"
-        printf '__original_args__="%s"\n' "${__original_args__}"
-        printf 'COLUMNS=%s\n' "${COLUMNS}"
-        printf 'CONSOLETYPE=%s\n' "${CONSOLETYPE}"
-        printf 'PATH=%s\n' "${PATH}"
+        printf '__backup_dsf__="%s"\n'      "${__backup_dsf__}"
+        printf '__basename__="%s"\n'        "${__basename__}"
+        printf '__default_dsf__="%s"\n'     "${__default_dsf__}"
+        printf '__file_dsf__="%s"\n'        "${__file_dsf__}"
+        printf '__logln_dsf__="%s"\n'       "${__logln_dsf__}"
+        printf '__logln_file__="%s"\n'      "${__logln_file__}"
+        printf '__logln_file_fmt__="%s"\n'  "${__logln_file_fmt__}"
+        printf '__logln_lvl__="%s"\n'       "${__logln_lvl__}"
+        printf '__logln_facility__="%s"\n'  "${__logln_facility__}"
+        printf '__original_args__="%s"\n'   "${__original_args__}"
+        printf 'COLUMNS=%s\n'       "${COLUMNS}"
+        printf 'CONSOLETYPE=%s\n'   "${CONSOLETYPE}"
+        printf 'PATH=%s\n'          "${PATH}"
+        printf 'Task Code: (%s) %s.%s%s\n' "${MARK}" "${TASK}" "${TASK_SUB}" "${TASK_STEP}"
     fi
 fi

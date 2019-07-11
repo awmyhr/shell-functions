@@ -7,6 +7,13 @@
 # License:    Apache-2.0
 # Revised:    20190711-104353 # This revision is for the test-suite portion
 # Created:    2019-06-28
+#==============================================================================
+#-- Expected globals ------------------------------------------------------
+__backup_dsf__="${__backup_dsf__:="+%Y%m%d-%H%M%S"}"
+__container_safe__="${__container_safe__:=false}"
+__logln_file__="${__logln_file__:=nil}"
+__logln_file_set__=${__logln_file_set__:=false}
+__require_root__="${__require_root__:=false}"
 ##--==
 #==============================================================================
 init() {
@@ -19,15 +26,6 @@ init() {
     #:
     #: Check for requirements, other set-up stuff
     #:"""
-##==---
-    #-- Expected globals ------------------------------------------------------
-    __backup_dsf__="${__backup_dsf__:="+%Y%m%d-%H%M%S"}"
-    __container_safe__="${__container_safe__:=false}"
-    __logln_file__="${__logln_file__:=unknown}"
-    __logln_file_set__=${__logln_file_set__:=false}
-    __require_root__="${__require_root__:=false}"
-    #--------------------------------------------------------------------------
-##--==
     #--------------------------------------------------------------------------
     #-- Check if effectively root
     #--------------------------------------------------------------------------
@@ -86,6 +84,12 @@ if ! (return 0 2>/dev/null) ; then
     if [ "${RUN_UNIT_TEST}" = 'true' ] || ! [ "$(type -t get_timestamp 2>/dev/null)" = 'function' ] ; then
         get_timestamp() {
             printf '%s' "${1}"
+        }
+    fi
+    if [ "${RUN_UNIT_TEST}" = 'true' ] || ! [ "$(type -t exit_error 2>/dev/null)" = 'function' ] ; then
+        exit_error() {
+            printf 'exit_error: (%s) %s\n' "${1}" "${2}"
+            exit "${1}"
         }
     fi
 

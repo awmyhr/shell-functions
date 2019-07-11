@@ -5,7 +5,7 @@
 # Proj Home:  https://github.com/awmyhr/shell-functions
 # Copyright:  2019 awmyhr
 # License:    Apache-2.0
-# Revised:    2019-07-10 # This revision is for the test-suite portion
+# Revised:    20190711-104353 # This revision is for the test-suite portion
 # Created:    2019-06-28
 ##--==
 #==============================================================================
@@ -15,7 +15,7 @@ init() {
     #:
     #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
     #:
-    #: .. revision:: 2019-07-05
+    #: .. revision:: 2019-07-11
     #:
     #: Check for requirements, other set-up stuff
     #:"""
@@ -31,13 +31,13 @@ init() {
     #--------------------------------------------------------------------------
     #-- Check if effectively root
     #--------------------------------------------------------------------------
-    if is_true "${__require_root__}" && [ "$(id -u)" -ne 0 ] ; then
+    if is_true "${__require_root__}" && [ "$(id -u 2>/dev/null)" -ne 0 ] ; then
       exit_error 77 'Must be run as root.'
     fi
     #--------------------------------------------------------------------------
     #-- Check if running inside Docker container
     #--------------------------------------------------------------------------
-    if is_false "${__container_safe__}" && grep -q '/docker' /proc/self/cgroup ; then
+    if is_false "${__container_safe__}" && grep -q '/docker' /proc/self/cgroup 2>/dev/null ; then
       exit_error 78 'This script is not container safe.'
     fi
     #--------------------------------------------------------------------------

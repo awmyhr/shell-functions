@@ -5,7 +5,7 @@
 # Proj Home:  https://github.com/awmyhr/shell-functions
 # Copyright:  2019 awmyhr
 # License:    Apache-2.0
-# Revised:    2019-06-28 # This revision is for the test-suite portion
+# Revised:    20190712-132405 # This revision is for the test-suite portion
 # Created:    2019-06-28
 ##--==
 #==============================================================================
@@ -15,7 +15,7 @@ get_platform_tag() {
     #:
     #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
     #:
-    #: .. revision:: 2019-06-28
+    #: .. revision:: 2019-07-12
     #:
     #: Identify underlining 'hardware' platform and return tag.
     #:
@@ -25,6 +25,7 @@ get_platform_tag() {
     if [ -f '/sys/devices/virtual/dmi/id/sys_vendor' ] ; then
         __get_platform_tag_sys_vendor="$(cat /sys/devices/virtual/dmi/id/sys_vendor)"
         case "${__get_platform_tag_sys_vendor}" in
+            'Google Compute Engine') __get_platform_tag='gce'    ;;
             'Microsoft Corporation') __get_platform_tag='hyperv' ;;
             'VMware, Inc.')          __get_platform_tag='vmware' ;;
             'innotek GmbH')          __get_platform_tag='vbox'   ;;

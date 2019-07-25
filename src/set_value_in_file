@@ -15,7 +15,7 @@ set_value_in_file() {
     #:
     #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
     #:
-    #: .. revision:: 2019-07-05
+    #: .. revision:: 2019-07-25
     #:
     #: Add or change a KEY to a VALUE in a FILE, creating FILE if necessary.
     #:
@@ -23,7 +23,7 @@ set_value_in_file() {
     #: :param str key:    KEY to create/modify
     #: :param str value:  VALUE to set key to
     #: :param str quote:  set to 'noquote' if VALUE should not be quoted
-    #:"""# {% raw %}
+    #:"""{% raw %}
     if [ "${#}" -ne 3 ] && [ "${#}" -ne 4 ] ; then # {% endraw %}
         return 64
     fi

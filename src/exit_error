@@ -46,7 +46,7 @@ exit_error() {
     #:
     #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
     #:
-    #: .. revision:: 2019-07-05
+    #: .. revision:: 2019-07-25
     #:
     #: Report error and exit
     #:
@@ -56,7 +56,7 @@ exit_error() {
     #:     You may want to use ${LINENO} in the string this is called with.
     #: .. warning::
     #:     This function exits the script
-    #:"""
+    #:"""{% raw %}
 ##==---
     #-- Expected globals ------------------------------------------------------
     cf_red=${cf_red:=''} ; c_bold=${c_bold:=''}; c_reset=${c_reset:=''}

@@ -21,8 +21,8 @@ get_timestamp() {
     #:
     #: .. project:: Shell Functions <https://github.com/awmyhr/shell-functions>
     #:
-    #: .. revision:: 20190705-1050
-    #:"""# {% raw %}
+    #: .. revision:: 20190725
+    #:"""{% raw %}
 ##==---
     #-- Expected globals ------------------------------------------------------
     DEFAULT_TIMESTAMP="${DEFAULT_TIMESTAMP:="+%Y%m%d"}"
